@@ -5,6 +5,17 @@
 
 using namespace Rcpp;
 
+// convert2logCpp
+Rcpp::List convert2logCpp(StringMatrix titers);
+RcppExport SEXP _AbLandscapes_convert2logCpp(SEXP titersSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< StringMatrix >::type titers(titersSEXP);
+    rcpp_result_gen = Rcpp::wrap(convert2logCpp(titers));
+    return rcpp_result_gen;
+END_RCPP
+}
 // calc_titer_loglik
 double calc_titer_loglik(double max_titer, double min_titer, double pred_titer, double error_sd);
 RcppExport SEXP _AbLandscapes_calc_titer_loglik(SEXP max_titerSEXP, SEXP min_titerSEXP, SEXP pred_titerSEXP, SEXP error_sdSEXP) {
@@ -35,24 +46,154 @@ BEGIN_RCPP
 END_RCPP
 }
 // calc_mean_titer_negll
-double calc_mean_titer_negll(NumericVector max_titers, NumericVector min_titers, double predicted_mean, double titer_sd);
-RcppExport SEXP _AbLandscapes_calc_mean_titer_negll(SEXP max_titersSEXP, SEXP min_titersSEXP, SEXP predicted_meanSEXP, SEXP titer_sdSEXP) {
+double calc_mean_titer_negll(double predicted_mean, NumericVector max_titers, NumericVector min_titers, double titer_sd);
+RcppExport SEXP _AbLandscapes_calc_mean_titer_negll(SEXP predicted_meanSEXP, SEXP max_titersSEXP, SEXP min_titersSEXP, SEXP titer_sdSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type predicted_mean(predicted_meanSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type max_titers(max_titersSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type min_titers(min_titersSEXP);
-    Rcpp::traits::input_parameter< double >::type predicted_mean(predicted_meanSEXP);
     Rcpp::traits::input_parameter< double >::type titer_sd(titer_sdSEXP);
-    rcpp_result_gen = Rcpp::wrap(calc_mean_titer_negll(max_titers, min_titers, predicted_mean, titer_sd));
+    rcpp_result_gen = Rcpp::wrap(calc_mean_titer_negll(predicted_mean, max_titers, min_titers, titer_sd));
+    return rcpp_result_gen;
+END_RCPP
+}
+// calc_mean_titer_negll_without_sd
+double calc_mean_titer_negll_without_sd(NumericVector pars, NumericVector max_titers, NumericVector min_titers);
+RcppExport SEXP _AbLandscapes_calc_mean_titer_negll_without_sd(SEXP parsSEXP, SEXP max_titersSEXP, SEXP min_titersSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type pars(parsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type max_titers(max_titersSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type min_titers(min_titersSEXP);
+    rcpp_result_gen = Rcpp::wrap(calc_mean_titer_negll_without_sd(pars, max_titers, min_titers));
+    return rcpp_result_gen;
+END_RCPP
+}
+// get_lndscp_fit_negll
+double get_lndscp_fit_negll(double max_titre, double min_titre, double pred_titre, double error_sd);
+RcppExport SEXP _AbLandscapes_get_lndscp_fit_negll(SEXP max_titreSEXP, SEXP min_titreSEXP, SEXP pred_titreSEXP, SEXP error_sdSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type max_titre(max_titreSEXP);
+    Rcpp::traits::input_parameter< double >::type min_titre(min_titreSEXP);
+    Rcpp::traits::input_parameter< double >::type pred_titre(pred_titreSEXP);
+    Rcpp::traits::input_parameter< double >::type error_sd(error_sdSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_lndscp_fit_negll(max_titre, min_titre, pred_titre, error_sd));
+    return rcpp_result_gen;
+END_RCPP
+}
+// get_lndscp_prediction_set_negll
+NumericVector get_lndscp_prediction_set_negll(NumericVector min_titres, NumericVector max_titres, NumericVector pred_titres, double error_sd);
+RcppExport SEXP _AbLandscapes_get_lndscp_prediction_set_negll(SEXP min_titresSEXP, SEXP max_titresSEXP, SEXP pred_titresSEXP, SEXP error_sdSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type min_titres(min_titresSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type max_titres(max_titresSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type pred_titres(pred_titresSEXP);
+    Rcpp::traits::input_parameter< double >::type error_sd(error_sdSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_lndscp_prediction_set_negll(min_titres, max_titres, pred_titres, error_sd));
+    return rcpp_result_gen;
+END_RCPP
+}
+// get_negll_hi_lm
+double get_negll_hi_lm(NumericVector par, NumericMatrix max_titres, NumericMatrix min_titres, NumericMatrix ag_coords, NumericVector ag_weights, double error_sd);
+RcppExport SEXP _AbLandscapes_get_negll_hi_lm(SEXP parSEXP, SEXP max_titresSEXP, SEXP min_titresSEXP, SEXP ag_coordsSEXP, SEXP ag_weightsSEXP, SEXP error_sdSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type par(parSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type max_titres(max_titresSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type min_titres(min_titresSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type ag_coords(ag_coordsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type ag_weights(ag_weightsSEXP);
+    Rcpp::traits::input_parameter< double >::type error_sd(error_sdSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_negll_hi_lm(par, max_titres, min_titres, ag_coords, ag_weights, error_sd));
+    return rcpp_result_gen;
+END_RCPP
+}
+// get_negll_hi_height
+double get_negll_hi_height(NumericVector par, double lndscp_height, NumericMatrix max_titres, NumericMatrix min_titres, NumericMatrix ag_coords, NumericVector ag_weights, double error_sd);
+RcppExport SEXP _AbLandscapes_get_negll_hi_height(SEXP parSEXP, SEXP lndscp_heightSEXP, SEXP max_titresSEXP, SEXP min_titresSEXP, SEXP ag_coordsSEXP, SEXP ag_weightsSEXP, SEXP error_sdSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type par(parSEXP);
+    Rcpp::traits::input_parameter< double >::type lndscp_height(lndscp_heightSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type max_titres(max_titresSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type min_titres(min_titresSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type ag_coords(ag_coordsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type ag_weights(ag_weightsSEXP);
+    Rcpp::traits::input_parameter< double >::type error_sd(error_sdSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_negll_hi_height(par, lndscp_height, max_titres, min_titres, ag_coords, ag_weights, error_sd));
+    return rcpp_result_gen;
+END_RCPP
+}
+// get_negll_lm
+double get_negll_lm(NumericVector par, NumericVector pred_titres, NumericVector max_titres, NumericVector min_titres, double error_sd);
+RcppExport SEXP _AbLandscapes_get_negll_lm(SEXP parSEXP, SEXP pred_titresSEXP, SEXP max_titresSEXP, SEXP min_titresSEXP, SEXP error_sdSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type par(parSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type pred_titres(pred_titresSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type max_titres(max_titresSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type min_titres(min_titresSEXP);
+    Rcpp::traits::input_parameter< double >::type error_sd(error_sdSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_negll_lm(par, pred_titres, max_titres, min_titres, error_sd));
+    return rcpp_result_gen;
+END_RCPP
+}
+// get_negll_lm_intercept
+double get_negll_lm_intercept(NumericVector par, NumericVector pred_titres, NumericVector max_titres, NumericVector min_titres, double lm_gradient, double error_sd);
+RcppExport SEXP _AbLandscapes_get_negll_lm_intercept(SEXP parSEXP, SEXP pred_titresSEXP, SEXP max_titresSEXP, SEXP min_titresSEXP, SEXP lm_gradientSEXP, SEXP error_sdSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type par(parSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type pred_titres(pred_titresSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type max_titres(max_titresSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type min_titres(min_titresSEXP);
+    Rcpp::traits::input_parameter< double >::type lm_gradient(lm_gradientSEXP);
+    Rcpp::traits::input_parameter< double >::type error_sd(error_sdSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_negll_lm_intercept(par, pred_titres, max_titres, min_titres, lm_gradient, error_sd));
+    return rcpp_result_gen;
+END_RCPP
+}
+// get_negll_lm_gradient
+double get_negll_lm_gradient(NumericVector par, NumericVector pred_titres, NumericVector max_titres, NumericVector min_titres, double lm_intercept, double error_sd);
+RcppExport SEXP _AbLandscapes_get_negll_lm_gradient(SEXP parSEXP, SEXP pred_titresSEXP, SEXP max_titresSEXP, SEXP min_titresSEXP, SEXP lm_interceptSEXP, SEXP error_sdSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type par(parSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type pred_titres(pred_titresSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type max_titres(max_titresSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type min_titres(min_titresSEXP);
+    Rcpp::traits::input_parameter< double >::type lm_intercept(lm_interceptSEXP);
+    Rcpp::traits::input_parameter< double >::type error_sd(error_sdSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_negll_lm_gradient(par, pred_titres, max_titres, min_titres, lm_intercept, error_sd));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_AbLandscapes_convert2logCpp", (DL_FUNC) &_AbLandscapes_convert2logCpp, 1},
     {"_AbLandscapes_calc_titer_loglik", (DL_FUNC) &_AbLandscapes_calc_titer_loglik, 4},
     {"_AbLandscapes_calc_titer_set_negll", (DL_FUNC) &_AbLandscapes_calc_titer_set_negll, 5},
     {"_AbLandscapes_calc_mean_titer_negll", (DL_FUNC) &_AbLandscapes_calc_mean_titer_negll, 4},
+    {"_AbLandscapes_calc_mean_titer_negll_without_sd", (DL_FUNC) &_AbLandscapes_calc_mean_titer_negll_without_sd, 3},
+    {"_AbLandscapes_get_lndscp_fit_negll", (DL_FUNC) &_AbLandscapes_get_lndscp_fit_negll, 4},
+    {"_AbLandscapes_get_lndscp_prediction_set_negll", (DL_FUNC) &_AbLandscapes_get_lndscp_prediction_set_negll, 4},
+    {"_AbLandscapes_get_negll_hi_lm", (DL_FUNC) &_AbLandscapes_get_negll_hi_lm, 6},
+    {"_AbLandscapes_get_negll_hi_height", (DL_FUNC) &_AbLandscapes_get_negll_hi_height, 7},
+    {"_AbLandscapes_get_negll_lm", (DL_FUNC) &_AbLandscapes_get_negll_lm, 5},
+    {"_AbLandscapes_get_negll_lm_intercept", (DL_FUNC) &_AbLandscapes_get_negll_lm_intercept, 6},
+    {"_AbLandscapes_get_negll_lm_gradient", (DL_FUNC) &_AbLandscapes_get_negll_lm_gradient, 6},
     {NULL, NULL, 0}
 };
 

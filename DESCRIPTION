@@ -1,12 +1,16 @@
 Package: AbLandscapes
 Type: Package
-Title: What the Package Does in One 'Title Case' Line
-Version: 1.0
-Date: 2018-06-04
-Author: Your Name
-Maintainer: Your Name <your@email.com>
-Description: One paragraph description of what the package does as one or more full sentences.
+Title: Fitting and plotting antibody landscapes
+Version: 1.0.0
+Date: 2019-06-16
+Author: Samuel H. Wilks
+Maintainer: Samuel H. Wilks <sw463@cam.ac.uk>
+Description: A package for fitting and plotting antibody landscapes as described in Fonville and Wilks et. al 2015.
 License: GPL (>= 2)
-Imports: Rcpp (>= 0.12.16)
+Imports: 
+  Rcpp (>= 0.12.16),
+  geometry
 LinkingTo: Rcpp
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
+Suggests: testthat
+LazyData: true

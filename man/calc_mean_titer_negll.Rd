@@ -4,14 +4,14 @@
 \alias{calc_mean_titer_negll}
 \title{Calculate the total negative log-likelihood of a mean titer}
 \usage{
-calc_mean_titer_negll(max_titers, min_titers, predicted_mean, titer_sd)
+calc_mean_titer_negll(predicted_mean, max_titers, min_titers, titer_sd)
 }
 \arguments{
+\item{predicted_mean}{The predicted mean titer.}
+
 \item{max_titers}{Numeric vector of the upper bounds of the measured titers.}
 
 \item{min_titers}{Numeric vector of the lower bounds of the measured titers.}
-
-\item{predicted_mean}{The predicted mean titer.}
 
 \item{titer_sd}{The expected standard deviation of titers.}
 }

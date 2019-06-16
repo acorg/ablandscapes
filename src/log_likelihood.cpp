@@ -17,6 +17,7 @@ using namespace Rcpp;
 //'
 //' @return Returns the log-likelihood of the measured titer given the measured titer 
 //' bounds and error standard deviation supplied.
+//' @export
 // [[Rcpp::export]]
 double calc_titer_loglik(double max_titer,
                          double min_titer,
@@ -26,6 +27,8 @@ double calc_titer_loglik(double max_titer,
   return(R::logspace_sub(R::pnorm5(max_titer, pred_titer, error_sd,1,1),
                          R::pnorm5(min_titer, pred_titer, error_sd,1,1)));
 }
+
+
 
 
 //' Calculate the total negative log-likelihood of a predicted titer set
@@ -63,6 +66,8 @@ double calc_titer_set_negll(NumericVector max_titers,
 }
 
 
+
+
 //' Calculate the total negative log-likelihood of a mean titer
 //' 
 //' This is a base function to sum the total _negative_ log likelihood of a mean titer.
@@ -77,11 +82,11 @@ double calc_titer_set_negll(NumericVector max_titers,
 //' titer variation are normally distributed. Note that the argument \code{titer_sd} is the 
 //' total expected standard deviation of the titer set, i.e. measurement error plus titer 
 //' variation.
-//' @export
+//' 
 // [[Rcpp::export]]
-double calc_mean_titer_negll(NumericVector max_titers,
+double calc_mean_titer_negll(double predicted_mean,
+                             NumericVector max_titers,
                              NumericVector min_titers,
-                             double predicted_mean,
                              double titer_sd) {
   
   double total_negll = 0;
@@ -95,3 +100,18 @@ double calc_mean_titer_negll(NumericVector max_titers,
   
 }
 
+
+//' Calculate the total negative log-likelihood of a mean titer where the standard deviation 
+//' is unknown. This is an internal function used by the function mean_titer.
+//' 
+// [[Rcpp::export]]
+double calc_mean_titer_negll_without_sd(NumericVector pars,
+                                        NumericVector max_titers,
+                                        NumericVector min_titers) {
+  
+  return(calc_mean_titer_negll(pars[0],
+                               max_titers,
+                               min_titers,
+                               pars[1]));
+  
+}
