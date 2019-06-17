@@ -2,7 +2,7 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 convert2logCpp <- function(titers) {
-    .Call('_AbLandscapes_convert2logCpp', PACKAGE = 'AbLandscapes', titers)
+    .Call('_ablandscapes_convert2logCpp', PACKAGE = 'ablandscapes', titers)
 }
 
 #' Calculate log likelihood of single fitted HI titer
@@ -23,7 +23,7 @@ convert2logCpp <- function(titers) {
 #' bounds and error standard deviation supplied.
 #' @export
 calc_titer_loglik <- function(max_titer, min_titer, pred_titer, error_sd) {
-    .Call('_AbLandscapes_calc_titer_loglik', PACKAGE = 'AbLandscapes', max_titer, min_titer, pred_titer, error_sd)
+    .Call('_ablandscapes_calc_titer_loglik', PACKAGE = 'ablandscapes', max_titer, min_titer, pred_titer, error_sd)
 }
 
 #' Calculate the total negative log-likelihood of a predicted titer set
@@ -42,7 +42,7 @@ calc_titer_loglik <- function(max_titer, min_titer, pred_titer, error_sd) {
 #' being that the associated error is normally distributed.
 #' @export
 calc_titer_set_negll <- function(max_titers, min_titers, pred_titers, titer_weights, hi_error_sd) {
-    .Call('_AbLandscapes_calc_titer_set_negll', PACKAGE = 'AbLandscapes', max_titers, min_titers, pred_titers, titer_weights, hi_error_sd)
+    .Call('_ablandscapes_calc_titer_set_negll', PACKAGE = 'ablandscapes', max_titers, min_titers, pred_titers, titer_weights, hi_error_sd)
 }
 
 #' Calculate the total negative log-likelihood of a mean titer
@@ -61,48 +61,48 @@ calc_titer_set_negll <- function(max_titers, min_titers, pred_titers, titer_weig
 #' variation.
 #' 
 calc_mean_titer_negll <- function(predicted_mean, max_titers, min_titers, titer_sd) {
-    .Call('_AbLandscapes_calc_mean_titer_negll', PACKAGE = 'AbLandscapes', predicted_mean, max_titers, min_titers, titer_sd)
+    .Call('_ablandscapes_calc_mean_titer_negll', PACKAGE = 'ablandscapes', predicted_mean, max_titers, min_titers, titer_sd)
 }
 
 #' Calculate the total negative log-likelihood of a mean titer where the standard deviation 
 #' is unknown. This is an internal function used by the function mean_titer.
 #' 
 calc_mean_titer_negll_without_sd <- function(pars, max_titers, min_titers) {
-    .Call('_AbLandscapes_calc_mean_titer_negll_without_sd', PACKAGE = 'AbLandscapes', pars, max_titers, min_titers)
+    .Call('_ablandscapes_calc_mean_titer_negll_without_sd', PACKAGE = 'ablandscapes', pars, max_titers, min_titers)
 }
 
 #' @export
 get_lndscp_fit_negll <- function(max_titre, min_titre, pred_titre, error_sd) {
-    .Call('_AbLandscapes_get_lndscp_fit_negll', PACKAGE = 'AbLandscapes', max_titre, min_titre, pred_titre, error_sd)
+    .Call('_ablandscapes_get_lndscp_fit_negll', PACKAGE = 'ablandscapes', max_titre, min_titre, pred_titre, error_sd)
 }
 
 #' @export
 get_lndscp_prediction_set_negll <- function(min_titres, max_titres, pred_titres, error_sd) {
-    .Call('_AbLandscapes_get_lndscp_prediction_set_negll', PACKAGE = 'AbLandscapes', min_titres, max_titres, pred_titres, error_sd)
+    .Call('_ablandscapes_get_lndscp_prediction_set_negll', PACKAGE = 'ablandscapes', min_titres, max_titres, pred_titres, error_sd)
 }
 
 #' @export
 get_negll_hi_lm <- function(par, max_titres, min_titres, ag_coords, ag_weights, error_sd) {
-    .Call('_AbLandscapes_get_negll_hi_lm', PACKAGE = 'AbLandscapes', par, max_titres, min_titres, ag_coords, ag_weights, error_sd)
+    .Call('_ablandscapes_get_negll_hi_lm', PACKAGE = 'ablandscapes', par, max_titres, min_titres, ag_coords, ag_weights, error_sd)
 }
 
 #' @export
 get_negll_hi_height <- function(par, lndscp_height, max_titres, min_titres, ag_coords, ag_weights, error_sd) {
-    .Call('_AbLandscapes_get_negll_hi_height', PACKAGE = 'AbLandscapes', par, lndscp_height, max_titres, min_titres, ag_coords, ag_weights, error_sd)
+    .Call('_ablandscapes_get_negll_hi_height', PACKAGE = 'ablandscapes', par, lndscp_height, max_titres, min_titres, ag_coords, ag_weights, error_sd)
 }
 
 #' @export
 get_negll_lm <- function(par, pred_titres, max_titres, min_titres, error_sd) {
-    .Call('_AbLandscapes_get_negll_lm', PACKAGE = 'AbLandscapes', par, pred_titres, max_titres, min_titres, error_sd)
+    .Call('_ablandscapes_get_negll_lm', PACKAGE = 'ablandscapes', par, pred_titres, max_titres, min_titres, error_sd)
 }
 
 #' @export
 get_negll_lm_intercept <- function(par, pred_titres, max_titres, min_titres, lm_gradient, error_sd) {
-    .Call('_AbLandscapes_get_negll_lm_intercept', PACKAGE = 'AbLandscapes', par, pred_titres, max_titres, min_titres, lm_gradient, error_sd)
+    .Call('_ablandscapes_get_negll_lm_intercept', PACKAGE = 'ablandscapes', par, pred_titres, max_titres, min_titres, lm_gradient, error_sd)
 }
 
 #' @export
 get_negll_lm_gradient <- function(par, pred_titres, max_titres, min_titres, lm_intercept, error_sd) {
-    .Call('_AbLandscapes_get_negll_lm_gradient', PACKAGE = 'AbLandscapes', par, pred_titres, max_titres, min_titres, lm_intercept, error_sd)
+    .Call('_ablandscapes_get_negll_lm_gradient', PACKAGE = 'ablandscapes', par, pred_titres, max_titres, min_titres, lm_intercept, error_sd)
 }
 

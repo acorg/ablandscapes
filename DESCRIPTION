@@ -1,4 +1,4 @@
-Package: AbLandscapes
+Package: ablandscapes
 Type: Package
 Title: Fitting and plotting antibody landscapes
 Version: 1.0.0

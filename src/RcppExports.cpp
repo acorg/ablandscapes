@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // convert2logCpp
 Rcpp::List convert2logCpp(StringMatrix titers);
-RcppExport SEXP _AbLandscapes_convert2logCpp(SEXP titersSEXP) {
+RcppExport SEXP _ablandscapes_convert2logCpp(SEXP titersSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -18,7 +18,7 @@ END_RCPP
 }
 // calc_titer_loglik
 double calc_titer_loglik(double max_titer, double min_titer, double pred_titer, double error_sd);
-RcppExport SEXP _AbLandscapes_calc_titer_loglik(SEXP max_titerSEXP, SEXP min_titerSEXP, SEXP pred_titerSEXP, SEXP error_sdSEXP) {
+RcppExport SEXP _ablandscapes_calc_titer_loglik(SEXP max_titerSEXP, SEXP min_titerSEXP, SEXP pred_titerSEXP, SEXP error_sdSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -32,7 +32,7 @@ END_RCPP
 }
 // calc_titer_set_negll
 double calc_titer_set_negll(NumericVector max_titers, NumericVector min_titers, NumericVector pred_titers, NumericVector titer_weights, double hi_error_sd);
-RcppExport SEXP _AbLandscapes_calc_titer_set_negll(SEXP max_titersSEXP, SEXP min_titersSEXP, SEXP pred_titersSEXP, SEXP titer_weightsSEXP, SEXP hi_error_sdSEXP) {
+RcppExport SEXP _ablandscapes_calc_titer_set_negll(SEXP max_titersSEXP, SEXP min_titersSEXP, SEXP pred_titersSEXP, SEXP titer_weightsSEXP, SEXP hi_error_sdSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -47,7 +47,7 @@ END_RCPP
 }
 // calc_mean_titer_negll
 double calc_mean_titer_negll(double predicted_mean, NumericVector max_titers, NumericVector min_titers, double titer_sd);
-RcppExport SEXP _AbLandscapes_calc_mean_titer_negll(SEXP predicted_meanSEXP, SEXP max_titersSEXP, SEXP min_titersSEXP, SEXP titer_sdSEXP) {
+RcppExport SEXP _ablandscapes_calc_mean_titer_negll(SEXP predicted_meanSEXP, SEXP max_titersSEXP, SEXP min_titersSEXP, SEXP titer_sdSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -61,7 +61,7 @@ END_RCPP
 }
 // calc_mean_titer_negll_without_sd
 double calc_mean_titer_negll_without_sd(NumericVector pars, NumericVector max_titers, NumericVector min_titers);
-RcppExport SEXP _AbLandscapes_calc_mean_titer_negll_without_sd(SEXP parsSEXP, SEXP max_titersSEXP, SEXP min_titersSEXP) {
+RcppExport SEXP _ablandscapes_calc_mean_titer_negll_without_sd(SEXP parsSEXP, SEXP max_titersSEXP, SEXP min_titersSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -74,7 +74,7 @@ END_RCPP
 }
 // get_lndscp_fit_negll
 double get_lndscp_fit_negll(double max_titre, double min_titre, double pred_titre, double error_sd);
-RcppExport SEXP _AbLandscapes_get_lndscp_fit_negll(SEXP max_titreSEXP, SEXP min_titreSEXP, SEXP pred_titreSEXP, SEXP error_sdSEXP) {
+RcppExport SEXP _ablandscapes_get_lndscp_fit_negll(SEXP max_titreSEXP, SEXP min_titreSEXP, SEXP pred_titreSEXP, SEXP error_sdSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -88,7 +88,7 @@ END_RCPP
 }
 // get_lndscp_prediction_set_negll
 NumericVector get_lndscp_prediction_set_negll(NumericVector min_titres, NumericVector max_titres, NumericVector pred_titres, double error_sd);
-RcppExport SEXP _AbLandscapes_get_lndscp_prediction_set_negll(SEXP min_titresSEXP, SEXP max_titresSEXP, SEXP pred_titresSEXP, SEXP error_sdSEXP) {
+RcppExport SEXP _ablandscapes_get_lndscp_prediction_set_negll(SEXP min_titresSEXP, SEXP max_titresSEXP, SEXP pred_titresSEXP, SEXP error_sdSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -102,7 +102,7 @@ END_RCPP
 }
 // get_negll_hi_lm
 double get_negll_hi_lm(NumericVector par, NumericMatrix max_titres, NumericMatrix min_titres, NumericMatrix ag_coords, NumericVector ag_weights, double error_sd);
-RcppExport SEXP _AbLandscapes_get_negll_hi_lm(SEXP parSEXP, SEXP max_titresSEXP, SEXP min_titresSEXP, SEXP ag_coordsSEXP, SEXP ag_weightsSEXP, SEXP error_sdSEXP) {
+RcppExport SEXP _ablandscapes_get_negll_hi_lm(SEXP parSEXP, SEXP max_titresSEXP, SEXP min_titresSEXP, SEXP ag_coordsSEXP, SEXP ag_weightsSEXP, SEXP error_sdSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -118,7 +118,7 @@ END_RCPP
 }
 // get_negll_hi_height
 double get_negll_hi_height(NumericVector par, double lndscp_height, NumericMatrix max_titres, NumericMatrix min_titres, NumericMatrix ag_coords, NumericVector ag_weights, double error_sd);
-RcppExport SEXP _AbLandscapes_get_negll_hi_height(SEXP parSEXP, SEXP lndscp_heightSEXP, SEXP max_titresSEXP, SEXP min_titresSEXP, SEXP ag_coordsSEXP, SEXP ag_weightsSEXP, SEXP error_sdSEXP) {
+RcppExport SEXP _ablandscapes_get_negll_hi_height(SEXP parSEXP, SEXP lndscp_heightSEXP, SEXP max_titresSEXP, SEXP min_titresSEXP, SEXP ag_coordsSEXP, SEXP ag_weightsSEXP, SEXP error_sdSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -135,7 +135,7 @@ END_RCPP
 }
 // get_negll_lm
 double get_negll_lm(NumericVector par, NumericVector pred_titres, NumericVector max_titres, NumericVector min_titres, double error_sd);
-RcppExport SEXP _AbLandscapes_get_negll_lm(SEXP parSEXP, SEXP pred_titresSEXP, SEXP max_titresSEXP, SEXP min_titresSEXP, SEXP error_sdSEXP) {
+RcppExport SEXP _ablandscapes_get_negll_lm(SEXP parSEXP, SEXP pred_titresSEXP, SEXP max_titresSEXP, SEXP min_titresSEXP, SEXP error_sdSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -150,7 +150,7 @@ END_RCPP
 }
 // get_negll_lm_intercept
 double get_negll_lm_intercept(NumericVector par, NumericVector pred_titres, NumericVector max_titres, NumericVector min_titres, double lm_gradient, double error_sd);
-RcppExport SEXP _AbLandscapes_get_negll_lm_intercept(SEXP parSEXP, SEXP pred_titresSEXP, SEXP max_titresSEXP, SEXP min_titresSEXP, SEXP lm_gradientSEXP, SEXP error_sdSEXP) {
+RcppExport SEXP _ablandscapes_get_negll_lm_intercept(SEXP parSEXP, SEXP pred_titresSEXP, SEXP max_titresSEXP, SEXP min_titresSEXP, SEXP lm_gradientSEXP, SEXP error_sdSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -166,7 +166,7 @@ END_RCPP
 }
 // get_negll_lm_gradient
 double get_negll_lm_gradient(NumericVector par, NumericVector pred_titres, NumericVector max_titres, NumericVector min_titres, double lm_intercept, double error_sd);
-RcppExport SEXP _AbLandscapes_get_negll_lm_gradient(SEXP parSEXP, SEXP pred_titresSEXP, SEXP max_titresSEXP, SEXP min_titresSEXP, SEXP lm_interceptSEXP, SEXP error_sdSEXP) {
+RcppExport SEXP _ablandscapes_get_negll_lm_gradient(SEXP parSEXP, SEXP pred_titresSEXP, SEXP max_titresSEXP, SEXP min_titresSEXP, SEXP lm_interceptSEXP, SEXP error_sdSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -182,22 +182,22 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_AbLandscapes_convert2logCpp", (DL_FUNC) &_AbLandscapes_convert2logCpp, 1},
-    {"_AbLandscapes_calc_titer_loglik", (DL_FUNC) &_AbLandscapes_calc_titer_loglik, 4},
-    {"_AbLandscapes_calc_titer_set_negll", (DL_FUNC) &_AbLandscapes_calc_titer_set_negll, 5},
-    {"_AbLandscapes_calc_mean_titer_negll", (DL_FUNC) &_AbLandscapes_calc_mean_titer_negll, 4},
-    {"_AbLandscapes_calc_mean_titer_negll_without_sd", (DL_FUNC) &_AbLandscapes_calc_mean_titer_negll_without_sd, 3},
-    {"_AbLandscapes_get_lndscp_fit_negll", (DL_FUNC) &_AbLandscapes_get_lndscp_fit_negll, 4},
-    {"_AbLandscapes_get_lndscp_prediction_set_negll", (DL_FUNC) &_AbLandscapes_get_lndscp_prediction_set_negll, 4},
-    {"_AbLandscapes_get_negll_hi_lm", (DL_FUNC) &_AbLandscapes_get_negll_hi_lm, 6},
-    {"_AbLandscapes_get_negll_hi_height", (DL_FUNC) &_AbLandscapes_get_negll_hi_height, 7},
-    {"_AbLandscapes_get_negll_lm", (DL_FUNC) &_AbLandscapes_get_negll_lm, 5},
-    {"_AbLandscapes_get_negll_lm_intercept", (DL_FUNC) &_AbLandscapes_get_negll_lm_intercept, 6},
-    {"_AbLandscapes_get_negll_lm_gradient", (DL_FUNC) &_AbLandscapes_get_negll_lm_gradient, 6},
+    {"_ablandscapes_convert2logCpp", (DL_FUNC) &_ablandscapes_convert2logCpp, 1},
+    {"_ablandscapes_calc_titer_loglik", (DL_FUNC) &_ablandscapes_calc_titer_loglik, 4},
+    {"_ablandscapes_calc_titer_set_negll", (DL_FUNC) &_ablandscapes_calc_titer_set_negll, 5},
+    {"_ablandscapes_calc_mean_titer_negll", (DL_FUNC) &_ablandscapes_calc_mean_titer_negll, 4},
+    {"_ablandscapes_calc_mean_titer_negll_without_sd", (DL_FUNC) &_ablandscapes_calc_mean_titer_negll_without_sd, 3},
+    {"_ablandscapes_get_lndscp_fit_negll", (DL_FUNC) &_ablandscapes_get_lndscp_fit_negll, 4},
+    {"_ablandscapes_get_lndscp_prediction_set_negll", (DL_FUNC) &_ablandscapes_get_lndscp_prediction_set_negll, 4},
+    {"_ablandscapes_get_negll_hi_lm", (DL_FUNC) &_ablandscapes_get_negll_hi_lm, 6},
+    {"_ablandscapes_get_negll_hi_height", (DL_FUNC) &_ablandscapes_get_negll_hi_height, 7},
+    {"_ablandscapes_get_negll_lm", (DL_FUNC) &_ablandscapes_get_negll_lm, 5},
+    {"_ablandscapes_get_negll_lm_intercept", (DL_FUNC) &_ablandscapes_get_negll_lm_intercept, 6},
+    {"_ablandscapes_get_negll_lm_gradient", (DL_FUNC) &_ablandscapes_get_negll_lm_gradient, 6},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_AbLandscapes(DllInfo *dll) {
+RcppExport void R_init_ablandscapes(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

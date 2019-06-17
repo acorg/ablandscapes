@@ -11,12 +11,13 @@
 #'   bounds with column names fit, lwr, and upr if interval is set.
 #' @export
 #'
-predict.ablandscape <- function(object,
-                                coords,
-                                interval = c("none", "confidence"),
-                                crop2chull = TRUE){
+predict.ablandscape.fit <- function(object,
+                                    coords,
+                                    interval   = "none",
+                                    level      = 0.95,
+                                    crop2chull = TRUE){
   
-  if("ablandscape.delta" %in% class(object)){
+  if("ablandscape.delta.fit" %in% class(object)){
     upper_bounds <- object$logtiters.delta.upper
     lower_bounds <- object$logtiters.delta.lower
   } else {
@@ -35,7 +36,28 @@ predict.ablandscape <- function(object,
     control    = object$control
   )
   
-  fitted_values <- vapply(coordfit, function(x){ x$par[1] }, numeric(1))
+  height_estimates <- vapply(coordfit, function(x){ x$par[1] }, numeric(1))
+  negll_estimates  <- vapply(coordfit, function(x){ x$negll }, numeric(1))
+  
+  if(interval == "confidence"){
+    
+    stop("Fitting of confidence intervals is not yet supported, but should be soon. :)")
+    # confint <- fit_ci2coords(
+    #   coords     = coords,
+    #   heights    = height_estimates,
+    #   negll      = negll_estimates,
+    #   ag_coords  = object$coords,
+    #   max_titers = upper_bounds,
+    #   min_titers = lower_bounds,
+    #   bandwidth  = object$bandwidth,
+    #   degree     = object$degree,
+    #   crop2chull = crop2chull,
+    #   control    = object$control
+    # )
+    
+  }
+  
+  fitted_values <- height_estimates
   fitted_values
   
 }

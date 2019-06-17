@@ -20,7 +20,7 @@ ablandscape.fit <- function(titers,
   
   # Keep a record
   fit <- list()
-  class(fit) <- c("ablandscape.fit", "ablandscape", "list")
+  class(fit) <- c("ablandscape.fit", "list")
   
   # Keep a record of pars used
   fit$control   <- do.call(ablandscape.control, control)
@@ -100,7 +100,7 @@ ablandscape.delta.fit <- function(titers1,
   
   # Keep a record
   fit <- list()
-  class(fit) <- c("ablandscape.delta.fit", "ablandscape.delta", "ablandscape", "list")
+  class(fit) <- c("ablandscape.delta.fit", "ablandscape.fit", "list")
   
   # Keep a record of pars used
   fit$control   <- do.call(ablandscape.control, control)
