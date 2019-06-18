@@ -1,7 +1,7 @@
 Package: ablandscapes
 Type: Package
 Title: Fitting and plotting antibody landscapes
-Version: 1.0.0
+Version: 1.0.1
 Date: 2019-06-16
 Author: Samuel H. Wilks
 Maintainer: Samuel H. Wilks <sw463@cam.ac.uk>
