@@ -4,7 +4,17 @@
 \alias{lndscp3d_map}
 \title{Generate a 3D map plot for an antibody landscape}
 \usage{
-lndscp3d_map(object, xlim, ylim, zlim, ...)
+lndscp3d_map(
+  object,
+  xlim,
+  ylim,
+  zlim,
+  show.map.antigens = TRUE,
+  show.map.sera = TRUE,
+  aspect.z = 1,
+  toggle = "Basepoints",
+  ...
+)
 }
 \arguments{
 \item{object}{The antibody landscape object}

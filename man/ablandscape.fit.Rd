@@ -4,7 +4,7 @@
 \alias{ablandscape.fit}
 \title{Fitting with antibody landscapes}
 \usage{
-ablandscape.fit(titers, coords, bandwidth, degree, control = list())
+ablandscape.fit(titers, coords, bandwidth, degree, error.sd, control = list())
 }
 \arguments{
 \item{titers}{A vector of titers against each antigen.}
@@ -16,6 +16,9 @@ ablandscape.fit(titers, coords, bandwidth, degree, control = list())
 \item{degree}{The degree of the polynomials to be used, normally 1 or 2.}
 
 \item{control}{Control parameters: see (\code{\link{ablandscape.control}})}
+}
+\value{
+
 }
 \description{
 Fit an antibody landscape to titers and antigen positions.

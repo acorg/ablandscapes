@@ -4,7 +4,9 @@
 \name{h3coords2015}
 \alias{h3coords2015}
 \title{Antigenic coordinates of H3N2 influenza strains.}
-\format{A matrix of antigenic coordinates}
+\format{
+A matrix of antigenic coordinates
+}
 \source{
 \url{http://doi.org/10.1126/science.1256427}
 }

@@ -17,6 +17,7 @@ ablandscape.par <- function(
   col.grid             = "grey80",
   col.surface          = "grey20",
   col.surface.grid     = "grey20",
+  shininess.surface    = 30,
   opacity.basemap      = 0.8,
   opacity.surface      = 0.8,
   opacity.surface.grid = 0.6
@@ -33,7 +34,8 @@ ablandscape.par <- function(
     col.surface.grid     = col.surface.grid,
     opacity.basemap      = opacity.basemap,
     opacity.surface      = opacity.surface,
-    opacity.surface.grid = opacity.surface.grid
+    opacity.surface.grid = opacity.surface.grid,
+    shininess.surface    = shininess.surface
   )
   
 }

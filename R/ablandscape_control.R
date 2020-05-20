@@ -12,16 +12,20 @@
 ablandscape.control <- function(
   max.titer.possible = 10,
   min.titer.possible = -4,
-  max.slope = 1,
-  error.sd = 1.1
+  max.slope          = 1,
+  error.sd           = 1.1,
+  confint.stepsize   = 0.1,
+  model.fn           = NULL
 ) {
   
   
   list(
     max.titer.possible = max.titer.possible,
     min.titer.possible = min.titer.possible,
-    max.slope = max.slope,
-    error.sd = error.sd
+    max.slope          = max.slope,
+    error.sd           = error.sd,
+    confint.stepsize   = confint.stepsize,
+    model.fn           = model.fn
   )
   
 }

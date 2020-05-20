@@ -3,7 +3,6 @@
 \docType{package}
 \name{ablandscapes}
 \alias{ablandscapes}
-\alias{ablandscapes-package}
 \title{ablandscapes: Making Antibody-landscapes Using R}
 \description{
 A package containing functions for making antibody landscapes.

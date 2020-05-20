@@ -4,11 +4,20 @@
 \alias{ablandscape.par}
 \title{Get defaults for antibody landscape plotting}
 \usage{
-ablandscape.par(cex = 1, cex.basemap = cex, cex.titer = cex * 2,
-  asp.z = 1, zaxt = "linear", col.grid = "grey80",
-  col.surface = "grey20", col.surface.grid = "grey20",
-  opacity.basemap = 0.8, opacity.surface = 0.8,
-  opacity.surface.grid = 0.6)
+ablandscape.par(
+  cex = 1,
+  cex.basemap = cex,
+  cex.titer = cex * 2,
+  asp.z = 1,
+  zaxt = "linear",
+  col.grid = "grey80",
+  col.surface = "grey20",
+  col.surface.grid = "grey20",
+  shininess.surface = 30,
+  opacity.basemap = 0.8,
+  opacity.surface = 0.8,
+  opacity.surface.grid = 0.6
+)
 }
 \value{
 Returns a list of default plotting options for making antibody landscapes.

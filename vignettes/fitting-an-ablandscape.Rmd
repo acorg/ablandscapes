@@ -1,0 +1,74 @@
+---
+title: "Fitting an antibody landscape"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{fitting-an-ablandscape}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(ablandscapes)
+```
+ 
+This vignette cover the basic approach to fitting an antibody landscape.
+ 
+```{r fitting_ablandscape}
+# Get the titers that you want to fit an antibody landcape to, in this case
+# a pre-vaccination sample from one of the individuals in the 1997 vaccine 
+# cohort
+titers <- vaccine1997.titers.pre[4,]
+
+# Get the antigenic coordinates of the antigens that have been titrated in 
+# the titers object (in corresponding order)
+ag_coords <- h3coords2015[match(names(titers), rownames(h3coords2015)),]
+
+# Fit the antibody landscape
+lndscp_fit <- ablandscape.fit(
+ titers    = titers,
+ coords    = ag_coords,
+ bandwidth = 10,
+ degree    = 1,
+ error.sd  = 1
+)
+```
+
+The landscape fit object returned from `ablandscape.fit()` can now be used to predict 
+the antibody landscape height at different coordinates, using the `predict()` method, 
+similarly to other fitting approaches like `lm()`.
+
+In the example below we use it to fit landscape values in a grid and plot a 
+corresponding contour plot.
+
+```{r predicting_landscapes}
+# Get a grid of titers
+lndscp_grid <- list(
+  x = seq(from = min(ag_coords[,1])-1, to = max(ag_coords[,1])+1),
+  y = seq(from = min(ag_coords[,2])-1, to = max(ag_coords[,2])+1)
+)
+
+# Predict the landscape heights along the grid
+grid_coords    <- expand.grid(lndscp_grid$x, lndscp_grid$y)
+lndscp_heights <- predict(
+  lndscp_fit,
+  coords     = grid_coords,
+  crop2chull = TRUE
+)
+
+# Convert the predictions back to a matrix matching x and y
+lndscp_grid$z <- matrix(
+  lndscp_heights,
+  nrow = length(lndscp_grid$x),
+  ncol = length(lndscp_grid$y)
+)
+
+# There is actually a convenience function that will output the same result
+lndscp_grid <- predict_lndscp_grid(lndscp_fit)
+```

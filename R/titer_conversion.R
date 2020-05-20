@@ -8,21 +8,33 @@
 #'
 as.logtiter <- function(titers){
   
+  # Check whether a data frame was supplied
+  df <- is.data.frame(titers)
+  
+  # Convert to a matrix
   if(!is.matrix(titers)){
     titers <- as.matrix(titers)
   }
+  
+  # Make sure the format is character not numeric
   mode(titers) <- "character"
-  converted_titers <- convert2logCpp(titers)
-  converted_titers <- lapply(converted_titers, function(x){
-    colnames(x) <- colnames(titers)
-    rownames(x) <- rownames(titers)
-    x
-  })
-  converted_titers$log_titers
+  
+  # Perform the conversion
+  logtiters <- convert2logCpp(titers)
+  
+  # Matchup column and row names
+  colnames(logtiters) <- colnames(titers)
+  rownames(logtiters) <- rownames(titers)
+  
+  # Convert back to a data frame if necessary
+  if(df){
+    logtiters <- as.data.frame(logtiters)
+  }
+  
+  # Return the log titers
+  logtiters
   
 }
-
-
 
 
 

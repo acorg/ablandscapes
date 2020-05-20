@@ -11,12 +11,16 @@
 #' @return Returns the maximum likelihood geometric mean titer.
 #' @export
 #'
-mean.titer <- function(titers,
-                       titer_sd = NULL,
-                       control = list()){
+logtiter.mean <- function(titers,
+                          titer_sd = NULL,
+                          control = list()){
   
   # Remove NA titers
-  if(sum(!is.na(titers)) == 0){ return(NA) }
+  if(sum(!is.na(titers)) == 0){ 
+    return(
+      list(estimate = list(gmt = NA))
+    )
+  }
   titers <- titers[!is.na(titers)]
   
   # Find the titer limits
@@ -41,10 +45,10 @@ mean.titer <- function(titers,
 #' @return Returns the maximum likelihood mean fold-change response.
 #' @export
 #'
-mean.foldchange <- function(titers1,
-                            titers2,
-                            titer_sd = NULL,
-                            control = list()){
+logfoldchange.mean <- function(titers1,
+                               titers2,
+                               titer_sd = NULL,
+                               control = list()){
   
   # Remove NA titers
   na_titers <- is.na(titers1) | is.na(titers2)
@@ -85,7 +89,7 @@ mean_fromlims <- function(upper_lims,
   
   # Calculate a starting mean
   if(is.null(start_mean)){
-    start_mean <- mean(upper_lims-0.5)
+    start_mean <- mean((upper_lims+lower_lims)/2)
   }
   
   if(is.null(measurement_sd)){
@@ -94,13 +98,12 @@ mean_fromlims <- function(upper_lims,
     start_pars   <- c(start_mean, sd(upper_lims))
     
     # Run optimisation
-    optim_result <- stats::optim(par = start_pars, 
-                                 fn  = calc_mean_titer_negll_without_sd,
-                                 max_titers = upper_lims,
-                                 min_titers = lower_lims,
-                                 method = "L-BFGS-B",
-                                 lower = c(min(lower_lims), 0),
-                                 upper = c(max(upper_lims), Inf))
+    optim_result <- stats::nlminb(start      = start_pars,
+                                  objective  = calc_mean_titer_negll_without_sd,
+                                  max_titers = upper_lims,
+                                  min_titers = lower_lims,
+                                  lower      = c(min(lower_lims), sd(upper_lims)/2),
+                                  upper      = c(max(upper_lims), Inf))
     
     # Return the estimate
     estimate <- list(gmt = optim_result$par[1],
@@ -112,14 +115,13 @@ mean_fromlims <- function(upper_lims,
     start_pars   <- start_mean
     
     # Run optimisation
-    optim_result <- stats::optim(par = start_pars, 
-                                 fn  = calc_mean_titer_negll,
-                                 max_titers = upper_lims,
-                                 min_titers = lower_lims,
-                                 titer_sd = measurement_sd,
-                                 method = "Brent",
-                                 lower = min(lower_lims),
-                                 upper = max(upper_lims))
+    optim_result <- stats::nlminb(start      = start_pars,
+                                  objective  = calc_mean_titer_negll,
+                                  max_titers = upper_lims,
+                                  min_titers = lower_lims,
+                                  titer_sd = measurement_sd,
+                                  lower      = min(lower_lims),
+                                  upper      = max(upper_lims))
     
     # Return the estimate
     estimate <- list(gmt = optim_result$par[1])

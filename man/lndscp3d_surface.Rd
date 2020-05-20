@@ -4,7 +4,7 @@
 \alias{lndscp3d_surface}
 \title{Add a surface to a 3d landscape plot}
 \usage{
-lndscp3d_surface(data3js, object, crop2chull, ...)
+lndscp3d_surface(data3js, object, crop2chull = TRUE, toggle = "Surface", ...)
 }
 \arguments{
 \item{data3js}{The r3js data object}

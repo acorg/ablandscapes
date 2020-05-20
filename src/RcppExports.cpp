@@ -6,7 +6,7 @@
 using namespace Rcpp;
 
 // convert2logCpp
-Rcpp::List convert2logCpp(StringMatrix titers);
+NumericMatrix convert2logCpp(StringMatrix titers);
 RcppExport SEXP _ablandscapes_convert2logCpp(SEXP titersSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

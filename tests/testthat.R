@@ -1,4 +1,4 @@
 library(testthat)
-library(AbLandscapes)
+library(ablandscapes)
 
-test_check("AbLandscapes")
+test_check("ablandscapes")

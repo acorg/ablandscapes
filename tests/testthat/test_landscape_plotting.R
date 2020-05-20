@@ -13,6 +13,5 @@ lndscp <- ablandscape(titers    = titers2,
                       bandwidth = 10,
                       degree    = 1)
 
-data3js <- AbLandscapes::view(lndscp)
+data3js <- ablandscapes::view(lndscp)
 
-r3js::debug3js(data3js, filename = "ablandscape.js")

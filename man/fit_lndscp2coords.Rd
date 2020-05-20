@@ -4,8 +4,18 @@
 \alias{fit_lndscp2coords}
 \title{Fit landscape to a set of coordinates}
 \usage{
-fit_lndscp2coords(coords, ag_coords, max_titers, min_titers, bandwidth,
-  degree, crop2chull = TRUE, control = list())
+fit_lndscp2coords(
+  coords,
+  ag_coords,
+  titers,
+  max_titers,
+  min_titers,
+  bandwidth,
+  degree,
+  error.sd,
+  crop2chull = TRUE,
+  control = list()
+)
 }
 \description{
 Fit landscape to a set of coordinates

@@ -11,6 +11,8 @@
 lndscp3d_titres <- function(data3js,
                             object,
                             zlim,
+                            show.impulses = TRUE,
+                            toggle = "Titers",
                             ...) {
   
   # Get the plot pars
@@ -26,8 +28,8 @@ lndscp3d_titres <- function(data3js,
   
   # Get the indices of the points fitted
   indices  <- object$ag_indices
-  ag_cols  <- object$acmap$ag_cols_fill[indices]
-  ag_names <- object$acmap$ag_names[indices]
+  ag_cols  <- Racmacs::agFill(object$acmap)[indices]
+  ag_names <- Racmacs::agNames(object$acmap)[indices]
   
   # Plot the impulses and points if requested.
   for (n in which(!na_titers)) {
@@ -40,11 +42,11 @@ lndscp3d_titres <- function(data3js,
                                x          = x[n],
                                y          = y[n],
                                z          = zlim[1]+0.01,
-                               size       = pars$cex.titer,
+                               size       = pars$cex.titer*4,
                                col        = ag_cols[n],
                                highlight  = list(col = "red"),
                                label      = ag_names[n],
-                               toggle     = "Titers",
+                               toggle     = toggle,
                                depthWrite = FALSE,
                                dimensions = 2)
     groupIDs <- c(groupIDs, r3js::lastID(data3js))
@@ -53,43 +55,46 @@ lndscp3d_titres <- function(data3js,
                                x                   = x[n],
                                y                   = y[n],
                                z                   = zlim[1]+0.01,
-                               size                = pars$cex.titer,
+                               size                = pars$cex.titer*4,
                                pch                 = 1,
                                col                 = "black",
                                highlight           = list(col = "red"),
-                               toggle              = "Titers",
+                               toggle              = toggle,
                                label               = ag_names[n],
                                polygonOffset       = TRUE,
                                polygonOffsetFactor = -1.0,
                                polygonOffsetUnits  = -1.0,
-                               dimensions          = 2)
+                               dimensions          = 2,
+                               lwd                 = 0.4)
     groupIDs <- c(groupIDs, r3js::lastID(data3js))
     
     
     # Plot impulses
-    data3js <- r3js::lines3js(data3js,
-                              x = rep(x[n], 2),
-                              y = rep(y[n], 2),
-                              z = c(zlim[1], z[n]),
-                              col = "grey20",
-                              highlight = list(col = "red"),
-                              interactive = FALSE,
-                              toggle = "Titers",
-                              # geometry = TRUE,
-                              lwd = 4)
-    groupIDs <- c(groupIDs, r3js::lastID(data3js))
-    
-    data3js <- r3js::points3js(data3js,
-                               x         = x[n],
-                               y         = y[n],
-                               z         = z[n],
-                               size      = pars$cex.titer,
-                               col       = "grey20",
-                               highlight = list(col = "red"),
-                               label     = ag_names[n],
-                               opacity   = 1,
-                               toggle    = "Titers")
-    groupIDs <- c(groupIDs, r3js::lastID(data3js))
+    if(show.impulses){
+      data3js <- r3js::lines3js(data3js,
+                                x = rep(x[n], 2),
+                                y = rep(y[n], 2),
+                                z = c(zlim[1], z[n]),
+                                col = "grey20",
+                                highlight = list(col = "red"),
+                                interactive = FALSE,
+                                toggle = toggle,
+                                geometry = TRUE,
+                                lwd = 0.5)
+      groupIDs <- c(groupIDs, r3js::lastID(data3js))
+      
+      data3js <- r3js::points3js(data3js,
+                                 x         = x[n],
+                                 y         = y[n],
+                                 z         = z[n],
+                                 size      = pars$cex.titer*2,
+                                 col       = "grey20",
+                                 highlight = list(col = "red"),
+                                 label     = ag_names[n],
+                                 opacity   = 1,
+                                 toggle    = toggle)
+      groupIDs <- c(groupIDs, r3js::lastID(data3js))
+    }
     
     # Link the group
     data3js <- r3js::group3js(data3js, groupIDs)

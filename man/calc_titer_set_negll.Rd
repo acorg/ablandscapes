@@ -4,8 +4,13 @@
 \alias{calc_titer_set_negll}
 \title{Calculate the total negative log-likelihood of a predicted titer set}
 \usage{
-calc_titer_set_negll(max_titers, min_titers, pred_titers, titer_weights,
-  hi_error_sd)
+calc_titer_set_negll(
+  max_titers,
+  min_titers,
+  pred_titers,
+  titer_weights,
+  hi_error_sd
+)
 }
 \arguments{
 \item{max_titers}{Numeric vector of the upper bounds of the measured titers.}

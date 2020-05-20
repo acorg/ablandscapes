@@ -1,5 +1,5 @@
 
-library(AbLandscapes)
+library(ablandscapes)
 
 ## Test calculation of titer limits
 testthat::context("Fitting antibody landscapes to a map object")

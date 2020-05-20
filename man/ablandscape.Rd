@@ -4,8 +4,15 @@
 \alias{ablandscape}
 \title{Fitting with antibody landscapes}
 \usage{
-ablandscape(titers, acmap, bandwidth, degree, grid_spacing = 1,
-  control = list())
+ablandscape(
+  titers,
+  acmap,
+  bandwidth,
+  degree,
+  error.sd,
+  grid_spacing = 1,
+  control = list()
+)
 }
 \arguments{
 \item{titers}{A named vector of titers against each antigen.}
@@ -19,6 +26,9 @@ ablandscape(titers, acmap, bandwidth, degree, grid_spacing = 1,
 \item{grid_spacing}{Grid spacing for surface interpolation}
 
 \item{control}{Control parameters: see (\code{\link{ablandscape.control}})}
+}
+\value{
+
 }
 \description{
 Fit an antibody landscape to titers and antigen positions.

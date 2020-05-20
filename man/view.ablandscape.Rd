@@ -4,8 +4,25 @@
 \alias{view.ablandscape}
 \title{View method for the antibody landscape object}
 \usage{
-\method{view}{ablandscape}(object, xlim, ylim, zlim, crop2chull = TRUE,
-  ...)
+\method{view}{ablandscape}(
+  object,
+  xlim,
+  ylim,
+  zlim,
+  crop2chull = TRUE,
+  output = "widget",
+  show.titers = TRUE,
+  show.impulses = show.titers,
+  show.surface = TRUE,
+  show.map.antigens = TRUE,
+  show.map.sera = TRUE,
+  aspect.z = 1,
+  rotation = NULL,
+  translation = NULL,
+  zoom = NULL,
+  toggles = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{The antibody landscape object}

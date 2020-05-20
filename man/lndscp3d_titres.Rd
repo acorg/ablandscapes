@@ -4,7 +4,14 @@
 \alias{lndscp3d_titres}
 \title{Add titer impulses to a 3d landscape plot}
 \usage{
-lndscp3d_titres(data3js, object, zlim, ...)
+lndscp3d_titres(
+  data3js,
+  object,
+  zlim,
+  show.impulses = TRUE,
+  toggle = "Titers",
+  ...
+)
 }
 \arguments{
 \item{data3js}{The r3js data object}

@@ -9,7 +9,8 @@
 #' 
 lndscp3d_surface <- function(data3js,
                              object,
-                             crop2chull,
+                             crop2chull = TRUE,
+                             toggle = "Surface",
                              ...) {
   
   # Get the plot pars
@@ -43,11 +44,12 @@ lndscp3d_surface <- function(data3js,
                               y = object$landscape$y,
                               z = object$landscape$z,
                               col        = pars$col.surface,
-                              toggle     = "Surface",
+                              toggle     = toggle,
                               opacity    = pars$opacity.surface,
-                              depthWrite = FALSE,
+                              shininess  = pars$shininess.surface,
                               xpd        = FALSE,
                               clippingPlanes = clipping_planes,
+                              doubleSide = TRUE,
                               ...)
   
   # Add the grid
@@ -57,9 +59,8 @@ lndscp3d_surface <- function(data3js,
                               z = object$landscape$z,
                               col        = pars$col.surface.grid,
                               wireframe  = TRUE,
-                              toggle     = "Surface",
+                              toggle     = toggle,
                               opacity    = pars$opacity.surface.grid,
-                              depthWrite = FALSE,
                               xpd        = FALSE,
                               clippingPlanes = clipping_planes,
                               ...)

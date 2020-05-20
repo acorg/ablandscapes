@@ -10,7 +10,19 @@ lndscp3d_map <- function(object,
                          xlim,
                          ylim,
                          zlim,
+                         show.map.antigens = TRUE,
+                         show.map.sera = TRUE,
+                         aspect.z = 1,
+                         toggle = "Basepoints",
                          ...) {
+  
+  # Get the map data
+  map_ag_coords  <- Racmacs::agCoords(object$acmap)
+  map_sr_coords  <- Racmacs::srCoords(object$acmap)
+  map_ag_fill    <- Racmacs::agFill(object$acmap)
+  map_sr_outline <- Racmacs::srOutline(object$acmap)
+  map_ag_names   <- Racmacs::agNames(object$acmap)
+  map_sr_names   <- Racmacs::srNames(object$acmap)
   
   # Get the plot pars
   pars <- ablandscape.par(...)
@@ -23,7 +35,7 @@ lndscp3d_map <- function(object,
                                   xlim = xlim,
                                   ylim = ylim,
                                   zlim = zlim,
-                                  aspect = c(1, 1, 1))
+                                  aspect = c(1, 1, aspect.z))
   
   ## Set box
   data3js <- r3js::box3js(data3js,
@@ -60,33 +72,39 @@ lndscp3d_map <- function(object,
   }
   
   ## Add antigens and sera
-  for (n in seq_len(nrow(object$acmap$ag_coords))) {
-    data3js <- r3js::points3js(data3js,
-                               x          = object$acmap$ag_coords[n,1],
-                               y          = object$acmap$ag_coords[n,2],
-                               z          = zlim[1]+0.005,
-                               size       = pars$cex.basemap,
-                               col        = object$acmap$ag_cols_fill[n],
-                               highlight  = list(col = "red"),
-                               label      = object$acmap$ag_names[n],
-                               toggle     = "Basepoints",
-                               depthWrite = FALSE,
-                               dimensions = 2)
+  if(show.map.antigens){
+    for (n in seq_len(nrow(map_ag_coords))) {
+      data3js <- r3js::points3js(data3js,
+                                 x          = map_ag_coords[n,1],
+                                 y          = map_ag_coords[n,2],
+                                 z          = zlim[1]+0.005,
+                                 size       = pars$cex.basemap*6,
+                                 col        = map_ag_fill[n],
+                                 opacity    = pars$opacity.basemap,
+                                 highlight  = list(col = "red"),
+                                 label      = map_ag_names[n],
+                                 toggle     = toggle,
+                                 depthWrite = FALSE,
+                                 dimensions = 2)
+    }
   }
   
-  for (n in seq_len(nrow(object$acmap$sr_coords))) {
-    data3js <- r3js::points3js(data3js,
-                               x          = object$acmap$sr_coords[n,1],
-                               y          = object$acmap$sr_coords[n,2],
-                               z          = zlim[1]+0.005,
-                               pch        = 0,
-                               size       = pars$cex.basemap,
-                               col        = object$acmap$sr_cols_outline[n],
-                               highlight  = list(col = "red"),
-                               label      = object$acmap$sr_names[n],
-                               toggle     = "Basepoints",
-                               depthWrite = FALSE,
-                               dimensions = 2)
+  if(show.map.sera){
+    for (n in seq_len(nrow(map_sr_coords))) {
+      data3js <- r3js::points3js(data3js,
+                                 x          = map_sr_coords[n,1],
+                                 y          = map_sr_coords[n,2],
+                                 z          = zlim[1]+0.005,
+                                 pch        = 0,
+                                 size       = pars$cex.basemap*6,
+                                 col        = map_sr_outline[n],
+                                 opacity    = pars$opacity.basemap,
+                                 highlight  = list(col = "red"),
+                                 label      = map_sr_names[n],
+                                 toggle     = toggle,
+                                 depthWrite = FALSE,
+                                 dimensions = 2)
+    }
   }
   
   # Return new plot data

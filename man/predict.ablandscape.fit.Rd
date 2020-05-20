@@ -4,8 +4,15 @@
 \alias{predict.ablandscape.fit}
 \title{Predict method for antibody landscapes}
 \usage{
-\method{predict}{ablandscape.fit}(object, coords, interval = "none",
-  level = 0.95, crop2chull = TRUE)
+\method{predict}{ablandscape.fit}(
+  object,
+  coords,
+  interval = "none",
+  level = 0.95,
+  negll.fit = FALSE,
+  crop2chull = TRUE,
+  control = list()
+)
 }
 \arguments{
 \item{object}{The antibody landscapes fit object}

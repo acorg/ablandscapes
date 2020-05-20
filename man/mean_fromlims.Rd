@@ -4,8 +4,7 @@
 \alias{mean_fromlims}
 \title{Calculate maximum likelihood mean from measurement limits}
 \usage{
-mean_fromlims(upper_lims, lower_lims, measurement_sd = NULL,
-  start_mean = NULL)
+mean_fromlims(upper_lims, lower_lims, measurement_sd = NULL, start_mean = NULL)
 }
 \arguments{
 \item{upper_lims}{The upper measurement limits}

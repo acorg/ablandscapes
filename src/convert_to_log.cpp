@@ -4,7 +4,7 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-Rcpp::List convert2logCpp(StringMatrix titers) {
+NumericMatrix convert2logCpp(StringMatrix titers) {
   
   int nrow = titers.nrow();
   int ncol = titers.ncol();
@@ -23,37 +23,42 @@ Rcpp::List convert2logCpp(StringMatrix titers) {
     if(titer == "NA" || titer.substr(0,1) == "*"){
       
       log_titers[i] = NA_REAL;
-      titer_type[i] = NA_STRING;
+      
+    } else if(titer.substr(0,2) == ">="){
+      
+      titer.erase(0,2);
+      log_titer = log2(std::stod(titer)/10);
+      log_titers[i] = log_titer;
+      
+    } else if(titer.substr(0,2) == "<="){
+      
+      titer.erase(0,2);
+      log_titer = log2(std::stod(titer)/10);
+      log_titers[i] = log_titer;
       
     } else if(titer.substr(0,1) == "<"){
       
       titer.erase(0,1);
       log_titer = log2(std::stod(titer)/10)-1;
       log_titers[i] = log_titer;
-      titer_type[i] = "lessthan";
       
     } else if(titer.substr(0,1) == ">"){
       
       titer.erase(0,1);
       log_titer = log2(std::stod(titer)/10)+1;
       log_titers[i] = log_titer;
-      titer_type[i] = "morethan";
       
     } else {
       
       log_titer = log2(std::stod(titer)/10);
       log_titers[i] = log_titer;
-      titer_type[i] = "disc";
       
     }
     
   }
   
-  // Return a list of matrices
-  return Rcpp::List::create(
-    Rcpp::Named("log_titers") = log_titers,
-    Rcpp::Named("titer_type") = titer_type
-  );
+  // Return a matrix
+  return log_titers;
   
 }
 

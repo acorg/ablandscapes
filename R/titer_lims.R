@@ -47,13 +47,15 @@ calc_titer_lims <- function(titers,
   }
   
   # Find less than and greater than titers and convert them to a numeric form
-  lessthan_titers <- grepl(x = titers, pattern = "<")
-  morethan_titers <- grepl(x = titers, pattern = ">")
+  lessthan_titers   <- grepl(x = titers, pattern = "<[0-9]")
+  lessthaneq_titers <- grepl(x = titers, pattern = "<=[0-9]")
+  morethan_titers   <- grepl(x = titers, pattern = ">[0-9]")
+  morethaneq_titers <- grepl(x = titers, pattern = ">=[0-9]")
   na_titers       <- grepl(x = titers, pattern = "\\*")
   
   numeric_titers <- titers
   numeric_titers[na_titers] <- NA
-  numeric_titers <- as.numeric(gsub("(<|>)","",numeric_titers))
+  numeric_titers <- as.numeric(gsub("(<|>|<=|>=)","",numeric_titers))
   
   # Convert titers to the log scale
   log_titers <- log2(numeric_titers/10)
@@ -63,8 +65,10 @@ calc_titer_lims <- function(titers,
   min_titers <- log_titers - 0.5
   
   pars <- do.call(ablandscape.control, control)
-  min_titers[lessthan_titers] <- pars$min.titer.possible
-  max_titers[morethan_titers] <- pars$max.titer.possible
+  min_titers[lessthan_titers]   <- pars$min.titer.possible
+  min_titers[lessthaneq_titers] <- pars$min.titer.possible
+  max_titers[morethan_titers]   <- pars$max.titer.possible
+  max_titers[morethaneq_titers] <- pars$max.titer.possible
   
   if(!is.null(titer_dims)){
     max_titers <- matrix(data = max_titers, 

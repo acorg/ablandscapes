@@ -3,10 +3,12 @@
 #' 
 fit_lndscp2coords <- function(coords,
                               ag_coords,
+                              titers,
                               max_titers,
                               min_titers,
                               bandwidth,
                               degree,
+                              error.sd,
                               crop2chull = TRUE,
                               control    = list()){
   
@@ -14,10 +16,12 @@ fit_lndscp2coords <- function(coords,
         MARGIN     = 1,
         FUN        = fit_lndscp2point,
         ag_coords  = ag_coords,
+        titers     = titers,
         max_titers = max_titers,
         min_titers = min_titers,
         bandwidth  = bandwidth,
         degree     = degree,
+        error.sd   = error.sd,
         crop2chull = crop2chull,
         control    = control)
   
@@ -28,12 +32,17 @@ fit_lndscp2coords <- function(coords,
 #'
 fit_lndscp2point <- function(point_coords,
                              ag_coords,
+                             titers,
                              max_titers,
                              min_titers,
                              bandwidth,
                              degree,
+                             error.sd,
                              crop2chull = TRUE,
                              control    = list()) {
+  
+  # Get model variables to send to optimiser
+  pars <- do.call(ablandscape.control, control)
   
   # Return NA if outside convex hull
   if(crop2chull) {
@@ -46,8 +55,53 @@ fit_lndscp2point <- function(point_coords,
     }
   }
   
-  # Get model variables to send to optimiser
-  pars <- do.call(ablandscape.control, control)
+  if(is.null(pars$model.fn)){
+    # Run with the default model function
+    return(
+      model_lndscp_height(
+        point_coords = point_coords,
+        ag_coords    = ag_coords,
+        titers       = titers,
+        max_titers   = max_titers,
+        min_titers   = min_titers,
+        bandwidth    = bandwidth,
+        degree       = degree,
+        error.sd     = error.sd,
+        pars         = pars
+      )
+    )
+  } else {
+    # Fit with user-specified function
+    return(
+      pars$model.fn(
+        point_coords = point_coords,
+        ag_coords    = ag_coords,
+        titers       = titers,
+        max_titers   = max_titers,
+        min_titers   = min_titers,
+        bandwidth    = bandwidth,
+        degree       = degree,
+        error.sd     = error.sd,
+        pars         = pars
+      )
+    )
+  }
+  
+  
+}
+
+
+#' Function to model the landscape height
+#' 
+model_lndscp_height <- function(point_coords,
+                                ag_coords,
+                                titers,
+                                max_titers,
+                                min_titers,
+                                bandwidth,
+                                degree,
+                                error.sd,
+                                pars){
   
   # Make ag coords relative to the point coord
   ag_coords <- ag_coords - matrix(point_coords, 
@@ -64,17 +118,16 @@ fit_lndscp2point <- function(point_coords,
                    upper       = c(pars$max.titer.possible, rep(pars$max.slope, ncol(ag_coords))),
                    lower       = c(pars$min.titer.possible, rep(-pars$max.slope, ncol(ag_coords))),
                    ag_coords   = ag_coords_poly,
-                   ag_weights  = agweights(ag_coords, bandwidth),
+                   ag_weights  = tricubic.weights(ag_coords, bandwidth),
                    max_titres  = matrix(max_titers, nrow = 1),
                    min_titres  = matrix(min_titers, nrow = 1),
-                   error_sd    = pars$error.sd)
+                   error_sd    = error.sd)
   
   # Return the best height fit
   list(par   = result$par,
        negll = result$objective)
   
 }
-
 
 
 #' Check if coordinates are within convex hull of ag coordinates
@@ -119,10 +172,12 @@ polycoords <- function(coords, degree){
   
 }
 
-# Calculate the antigen weights
-agweights <- function(agcoords, bandwidth){
+#' Calculate the antigen weights
+#' 
+#' @export
+tricubic.weights <- function(coords, bandwidth){
   
-  d <- sqrt(rowSums(agcoords^2))
+  d <- sqrt(rowSums(coords^2))
   D <- bandwidth
   
   (1 - (d/D)^3)^3

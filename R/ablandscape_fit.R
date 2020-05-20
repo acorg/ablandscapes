@@ -16,6 +16,7 @@ ablandscape.fit <- function(titers,
                             coords,
                             bandwidth,
                             degree,
+                            error.sd,
                             control = list()){
   
   # Keep a record
@@ -27,10 +28,14 @@ ablandscape.fit <- function(titers,
   fit$coords    <- coords
   fit$bandwidth <- bandwidth
   fit$degree    <- degree
+  fit$error.sd  <- error.sd
   
   # Get less than and greater than coordinates
   fit$lessthans <- substr(titers, 1, 1) == "<"
   fit$morethans <- substr(titers, 1, 1) == ">"
+  
+  # Keep titers
+  fit$titers <- titers
   
   # Get log titers
   fit$logtiters <- as.vector(as.logtiter(titers))
@@ -41,20 +46,10 @@ ablandscape.fit <- function(titers,
   fit$logtiters.upper <- titer_lims$max_titers
   fit$logtiters.lower <- titer_lims$min_titers
   
-  # Fit the ag coordinates
-  coordfit <- fit_lndscp2coords(
-    coords     = coords,
-    ag_coords  = coords,
-    max_titers = fit$logtiters.upper,
-    min_titers = fit$logtiters.lower,
-    bandwidth  = bandwidth,
-    degree     = degree,
-    crop2chull = FALSE,
-    control    = control
-  )
-  
   # Record fit
-  fit$fitted.values <- vapply(coordfit, function(x){ x$par[1] }, numeric(1))
+  fit$fitted.values <- predict(object = fit,
+                               coords = coords,
+                               crop2chull = FALSE)
   
   # Get residuals
   fit_residuals <- fit$logtiters - fit$fitted.values
@@ -96,6 +91,7 @@ ablandscape.delta.fit <- function(titers1,
                                   coords,
                                   bandwidth,
                                   degree,
+                                  error.sd,
                                   control = list()){
   
   # Keep a record
@@ -107,6 +103,7 @@ ablandscape.delta.fit <- function(titers1,
   fit$coords    <- coords
   fit$bandwidth <- bandwidth
   fit$degree    <- degree
+  fit$error.sd  <- error.sd
   
   # Get measurable titers
   measurable_titers <- substr(titers1, 1, 1) != "<" &
@@ -119,6 +116,12 @@ ablandscape.delta.fit <- function(titers1,
   fit$logtiters2 <- as.vector(as.logtiter(titers2))
   fit$logtiters.delta <- fit$logtiters2 - fit$logtiters1
   
+  # Keep titers
+  fit$titers <- list(
+    titers1 = titers1,
+    titers2 = titers2
+  )
+  
   # Get titer limits
   titer_lims <- calc_titer_diffs(titers1 = titers1,
                                  titers2 = titers2,
@@ -126,20 +129,10 @@ ablandscape.delta.fit <- function(titers1,
   fit$logtiters.delta.upper <- titer_lims$max_diffs
   fit$logtiters.delta.lower <- titer_lims$min_diffs
   
-  # Fit the ag coordinates
-  coordfit <- fit_lndscp2coords(
-    coords     = coords,
-    ag_coords  = coords,
-    max_titers = fit$logtiters.delta.upper,
-    min_titers = fit$logtiters.delta.lower,
-    bandwidth  = bandwidth,
-    degree     = degree,
-    crop2chull = FALSE,
-    control    = control
-  )
-  
   # Record fit
-  fit$fitted.values <- vapply(coordfit, function(x){ x$par[1] }, numeric(1))
+  fit$fitted.values <- predict(object = fit,
+                               coords = coords,
+                               crop2chull = FALSE)
   
   # Get residuals
   fit_residuals <- fit$logtiters.delta - fit$fitted.values

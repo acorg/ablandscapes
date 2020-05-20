@@ -6,7 +6,7 @@ rm(list = ls())
 
 # Load packages
 library(Racmacs)
-library(AbLandscapes)
+library(ablandscapes)
 
 # Read in a map
 map <- h3basemap2015
@@ -27,7 +27,7 @@ fit_post <- ablandscape(titers    = titers_post,
                         degree    = 1)
 
 # View the fit
-# view(fit)
+ablandscapes::view(fit_pre)
 
 # Get the summary path
 summary_path <- read.csv("~/Desktop/snake_coords.csv", header = FALSE)
@@ -37,11 +37,14 @@ summary_path
 summary_lndscp_height_pre  <- predict(fit_pre,  coords = summary_path, crop2chull = FALSE)
 summary_lndscp_height_post <- predict(fit_post, coords = summary_path, crop2chull = FALSE)
 
+# Plot the landscape along the summary path
 plot(x = seq_along(summary_lndscp_height_pre),
-     y = summary_lndscp_height_pre)
+     y = summary_lndscp_height_pre,
+     type = "l",
+     lwd = 2)
 
 plot(x = seq_along(summary_lndscp_height_post),
-     y = summary_lndscp_height_post)
-
-# view(fit)
+     y = summary_lndscp_height_post,
+     type = "l",
+     lwd = 2)
 

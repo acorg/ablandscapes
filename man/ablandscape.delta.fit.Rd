@@ -4,8 +4,15 @@
 \alias{ablandscape.delta.fit}
 \title{Fitting an antibody delta landscape}
 \usage{
-ablandscape.delta.fit(titers1, titers2, coords, bandwidth, degree,
-  control = list())
+ablandscape.delta.fit(
+  titers1,
+  titers2,
+  coords,
+  bandwidth,
+  degree,
+  error.sd,
+  control = list()
+)
 }
 \arguments{
 \item{titers1}{A vector of titers against each antigen.}
@@ -19,6 +26,9 @@ ablandscape.delta.fit(titers1, titers2, coords, bandwidth, degree,
 \item{degree}{The degree of the polynomials to be used, normally 1 or 2.}
 
 \item{control}{Control parameters: see (\code{\link{ablandscape.control}})}
+}
+\value{
+
 }
 \description{
 Fit an antibody landscape that represents the difference in reactivity

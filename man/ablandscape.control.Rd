@@ -4,8 +4,14 @@
 \alias{ablandscape.control}
 \title{Get defaults for antibody landscape fitting}
 \usage{
-ablandscape.control(max.titer.possible = 10, min.titer.possible = -4,
-  max.slope = 1, error.sd = 1.1)
+ablandscape.control(
+  max.titer.possible = 10,
+  min.titer.possible = -4,
+  max.slope = 1,
+  error.sd = 1.1,
+  confint.stepsize = 0.1,
+  model.fn = NULL
+)
 }
 \value{
 Returns a list of default fitting options for making antibody
