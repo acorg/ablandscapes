@@ -114,13 +114,13 @@ model_lndscp_height <- function(point_coords,
   # Perform the fit
   result <- nlminb(
     start       = c(0, rep(0, ncol(ag_coords_poly))),
-    objective   = get_negll_hi_lm,
+    objective   = negll_titer_lm,
     upper       = c(pars$max.titer.possible, rep(pars$max.slope, ncol(ag_coords))),
     lower       = c(pars$min.titer.possible, rep(-pars$max.slope, ncol(ag_coords))),
     ag_coords   = ag_coords_poly,
     ag_weights  = tricubic.weights(ag_coords, bandwidth),
-    max_titres  = matrix(max_titers, nrow = 1),
-    min_titres  = matrix(min_titers, nrow = 1),
+    max_titers  = matrix(max_titers, nrow = 1),
+    min_titers  = matrix(min_titers, nrow = 1),
     error_sd    = error.sd
   )
   

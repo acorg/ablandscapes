@@ -17,5 +17,5 @@ Returns a list, with a matrix of x and y coordinates for each point
   the landscape heights at each of these points.
 }
 \description{
-This is a function for building and antibody landscape from a given set of antigenic coordinates and titres.
+This is a function for building and antibody landscape from a given set of antigenic coordinates and titers.
 }

@@ -17,27 +17,7 @@
 #'
 #' @return Returns the log-likelihood of the measured titer given the measured titer 
 #' bounds and error standard deviation supplied.
-calc_titer_loglik <- function(max_titer, min_titer, pred_titer, error_sd) {
-    .Call('_ablandscapes_calc_titer_loglik', PACKAGE = 'ablandscapes', max_titer, min_titer, pred_titer, error_sd)
-}
-
-#' Calculate the total negative log-likelihood of a predicted titer set
-#' 
-#' This is a base function to sum the total _negative_ log likelihood of a predicted 
-#' and measured set of HI titers.
-#' 
-#' @param max_titers Numeric vector of the upper bounds of the measured titers.
-#' @param min_titers Numeric vector of the lower bounds of the measured titers.
-#' @param pred_titers Numeric vector of predicted titers.
-#' @param titer_weights Numeric vector of titer weights.
-#' @param hi_error_sd The standard deviation of the error.
-#' 
-#' @details This function simply calculates to log likelihood of a series of predicted 
-#' measurements given the upper and lower bounds of the measurements, the main assumption 
-#' being that the associated error is normally distributed.
-calc_titer_set_negll <- function(max_titers, min_titers, pred_titers, titer_weights, hi_error_sd) {
-    .Call('_ablandscapes_calc_titer_set_negll', PACKAGE = 'ablandscapes', max_titers, min_titers, pred_titers, titer_weights, hi_error_sd)
-}
+NULL
 
 #' Calculate the total negative log-likelihood of a mean titer
 #' 
@@ -58,38 +38,37 @@ calc_mean_titer_negll <- function(predicted_mean, max_titers, min_titers, titer_
     .Call('_ablandscapes_calc_mean_titer_negll', PACKAGE = 'ablandscapes', predicted_mean, max_titers, min_titers, titer_sd)
 }
 
-#' Calculate the total negative log-likelihood of a mean titer where the standard deviation 
-#' is unknown. This is an internal function used by the function mean_titer.
-#' 
 calc_mean_titer_negll_without_sd <- function(pars, max_titers, min_titers) {
     .Call('_ablandscapes_calc_mean_titer_negll_without_sd', PACKAGE = 'ablandscapes', pars, max_titers, min_titers)
 }
 
-get_lndscp_fit_negll <- function(max_titre, min_titre, pred_titre, error_sd) {
-    .Call('_ablandscapes_get_lndscp_fit_negll', PACKAGE = 'ablandscapes', max_titre, min_titre, pred_titre, error_sd)
+#' Calculate the negative log likelihood of a linear model
+#' 
+#' This is the base function used by the optimizer to calculate the negative
+#' log likelihood of a given set of linear model parameters
+#' 
+#' @param par A vector of parameters, intercept followed by coefficients for each
+#'   coordinate dimension, or in the case of getting likelihood for a given height 
+#'   simply the coefficients for each coordinate dimension
+#' @param max_titers Numeric vector of the upper bounds of the measured titers
+#' @param min_titers Numeric vector of the lower bounds of the measured titers
+#' @param ag_coords Matrix of antigenic coordinates relative to the landscape
+#'   coordinates being modelled
+#' @param ag_weights A vector of weights to apply to each antigen, according to
+#'   their distance from the point being modelled
+#' @param error_sd The expected standard deviation of titer error
+#' 
+#' @name negll_titer_lm
+#' 
+NULL
+
+#' @rdname negll_titer_lm
+negll_titer_lm <- function(par, max_titers, min_titers, ag_coords, ag_weights, error_sd) {
+    .Call('_ablandscapes_negll_titer_lm', PACKAGE = 'ablandscapes', par, max_titers, min_titers, ag_coords, ag_weights, error_sd)
 }
 
-get_lndscp_prediction_set_negll <- function(min_titres, max_titres, pred_titres, error_sd) {
-    .Call('_ablandscapes_get_lndscp_prediction_set_negll', PACKAGE = 'ablandscapes', min_titres, max_titres, pred_titres, error_sd)
-}
-
-get_negll_hi_lm <- function(par, max_titres, min_titres, ag_coords, ag_weights, error_sd) {
-    .Call('_ablandscapes_get_negll_hi_lm', PACKAGE = 'ablandscapes', par, max_titres, min_titres, ag_coords, ag_weights, error_sd)
-}
-
-get_negll_hi_height <- function(par, lndscp_height, max_titres, min_titres, ag_coords, ag_weights, error_sd) {
-    .Call('_ablandscapes_get_negll_hi_height', PACKAGE = 'ablandscapes', par, lndscp_height, max_titres, min_titres, ag_coords, ag_weights, error_sd)
-}
-
-get_negll_lm <- function(par, pred_titres, max_titres, min_titres, error_sd) {
-    .Call('_ablandscapes_get_negll_lm', PACKAGE = 'ablandscapes', par, pred_titres, max_titres, min_titres, error_sd)
-}
-
-get_negll_lm_intercept <- function(par, pred_titres, max_titres, min_titres, lm_gradient, error_sd) {
-    .Call('_ablandscapes_get_negll_lm_intercept', PACKAGE = 'ablandscapes', par, pred_titres, max_titres, min_titres, lm_gradient, error_sd)
-}
-
-get_negll_lm_gradient <- function(par, pred_titres, max_titres, min_titres, lm_intercept, error_sd) {
-    .Call('_ablandscapes_get_negll_lm_gradient', PACKAGE = 'ablandscapes', par, pred_titres, max_titres, min_titres, lm_intercept, error_sd)
+#' @rdname negll_titer_lm
+negll_lndscp_height <- function(par, lndscp_height, max_titers, min_titers, ag_coords, ag_weights, error_sd) {
+    .Call('_ablandscapes_negll_lndscp_height', PACKAGE = 'ablandscapes', par, lndscp_height, max_titers, min_titers, ag_coords, ag_weights, error_sd)
 }
 

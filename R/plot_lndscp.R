@@ -72,7 +72,7 @@ lndscp_r3jsplot <- function(
   
   # Plot titers
   if(show.titers){
-    data3js <- lndscp3d_titres(
+    data3js <- lndscp3d_titers(
       data3js       = data3js,
       object        = fit, 
       zlim          = zlim,

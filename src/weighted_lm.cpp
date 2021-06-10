@@ -1,69 +1,53 @@
 
 #include <RcppArmadillo.h>
+#include "titer_likelihood.h"
 
-// [[Rcpp::export]]
-double get_lndscp_fit_negll(
-    const double &max_titre,
-    const double &min_titre,
-    const double &pred_titre,
-    const double &error_sd
-  ) {
-  return(
-    R::logspace_sub(
-      R::pnorm5(max_titre,pred_titre,error_sd,1,1),
-      R::pnorm5(min_titre,pred_titre,error_sd,1,1)
-    )
-  );
-}
+//' Calculate the negative log likelihood of a linear model
+//' 
+//' This is the base function used by the optimizer to calculate the negative
+//' log likelihood of a given set of linear model parameters
+//' 
+//' @param par A vector of parameters, intercept followed by coefficients for each
+//'   coordinate dimension, or in the case of getting likelihood for a given height 
+//'   simply the coefficients for each coordinate dimension
+//' @param max_titers Numeric vector of the upper bounds of the measured titers
+//' @param min_titers Numeric vector of the lower bounds of the measured titers
+//' @param ag_coords Matrix of antigenic coordinates relative to the landscape
+//'   coordinates being modelled
+//' @param ag_weights A vector of weights to apply to each antigen, according to
+//'   their distance from the point being modelled
+//' @param error_sd The expected standard deviation of titer error
+//' 
+//' @name negll_titer_lm
+//' 
 
+//' @rdname negll_titer_lm
 // [[Rcpp::export]]
-arma::vec get_lndscp_prediction_set_negll(
-    const arma::vec &min_titres,
-    const arma::vec &max_titres,
-    const arma::vec &pred_titres,
-    const double &error_sd
-  ) {
-  
-  int num_titres = pred_titres.n_elem;
-  arma::vec all_neglls(num_titres);
-  for(int i = 0; i < num_titres; ++i) {
-    all_neglls(i) = -get_lndscp_fit_negll(
-      max_titres(i),
-      min_titres(i),
-      pred_titres(i),
-      error_sd
-    );
-  }
-  return(all_neglls);
-  
-}
-
-// [[Rcpp::export]]
-double get_negll_hi_lm(
+double negll_titer_lm(
     const arma::vec &par,
-    const arma::mat &max_titres,
-    const arma::mat &min_titres,
+    const arma::mat &max_titers,
+    const arma::mat &min_titers,
     const arma::mat &ag_coords,
     const arma::vec &ag_weights,
     const double &error_sd
   ) {
   
   double overall_prob = 0;
-  double predicted_titre;
+  double predicted_titer;
   double log_prediction_prob;
   
   for(arma::uword i = 0; i < ag_coords.n_rows; ++i) {
     if(ag_weights(i) > 0) {
-      predicted_titre = par(0);
+      predicted_titer = par(0);
       for(arma::uword j = 0; j < ag_coords.n_cols; ++j) {
-        predicted_titre += par(j+1) * ag_coords(i,j);
+        predicted_titer += par(j+1) * ag_coords(i,j);
       }
-      for(arma::uword x = 0; x < max_titres.n_rows; ++x) {
-        if(std::isfinite(max_titres(x,i))) {
-          log_prediction_prob = get_lndscp_fit_negll(
-            max_titres(x,i), 
-            min_titres(x,i), 
-            predicted_titre, 
+      for(arma::uword x = 0; x < max_titers.n_rows; ++x) {
+        if(std::isfinite(max_titers(x,i))) {
+          log_prediction_prob = titer_prediction_negll(
+            max_titers(x,i), 
+            min_titers(x,i), 
+            predicted_titer, 
             error_sd
           );
           overall_prob -= log_prediction_prob * ag_weights(i);
@@ -77,119 +61,31 @@ double get_negll_hi_lm(
 }
 
 
+//' @rdname negll_titer_lm
 // [[Rcpp::export]]
-double get_negll_hi_height(
+double negll_lndscp_height(
     arma::vec par,
     const double &lndscp_height,
-    const arma::mat &max_titres,
-    const arma::mat &min_titres,
+    const arma::mat &max_titers,
+    const arma::mat &min_titers,
     const arma::mat &ag_coords,
     const arma::vec &ag_weights,
     const double &error_sd
   ) {
   
+  // Set the intercept as the height provided
   par.insert_rows(0, lndscp_height);
+  
+  // Pass on the the normal lm function
   return(
-    get_negll_hi_lm(
+    negll_titer_lm(
       par,
-      max_titres,
-      min_titres,
+      max_titers,
+      min_titers,
       ag_coords,
       ag_weights,
       error_sd
     )
   );
-  
-}
-
-// [[Rcpp::export]]
-double get_negll_lm(
-    const arma::vec &par,
-    const arma::vec &pred_titres,
-    const arma::vec &max_titres,
-    const arma::vec &min_titres,
-    const double &error_sd
-  ) {
-  
-  double overall_prob = 0;
-  double predicted_titre;
-  double log_prediction_prob;
-  
-  for(arma::uword i = 0; i < pred_titres.n_elem; ++i) {
-    predicted_titre = par(0) + par(1)*pred_titres(i);
-    if(std::isfinite(max_titres(i))) {
-      log_prediction_prob = get_lndscp_fit_negll(
-        max_titres(i), 
-        min_titres(i), 
-        predicted_titre, 
-        error_sd
-      );
-      overall_prob -= log_prediction_prob;
-    }
-  }
-  
-  return(overall_prob);
-  
-}
-
-// [[Rcpp::export]]
-double get_negll_lm_intercept(
-    const arma::vec &par,
-    const arma::vec &pred_titres,
-    const arma::vec &max_titres,
-    const arma::vec &min_titres,
-    const double &lm_gradient,
-    const double &error_sd
-  ) {
-  
-  double overall_prob = 0;
-  double predicted_titre;
-  double log_prediction_prob;
-  
-  for(arma::uword i = 0; i < pred_titres.n_elem; ++i) {
-    predicted_titre = par(0) + lm_gradient*pred_titres(i);
-    if(std::isfinite(max_titres(i))) {
-      log_prediction_prob = get_lndscp_fit_negll(
-        max_titres(i), 
-        min_titres(i), 
-        predicted_titre, 
-        error_sd
-      );
-      overall_prob -= log_prediction_prob;
-    }
-  }
-  
-  return(overall_prob);
-  
-}
-
-// [[Rcpp::export]]
-double get_negll_lm_gradient(
-    const arma::vec &par,
-    const arma::vec &pred_titres,
-    const arma::vec &max_titres,
-    const arma::vec &min_titres,
-    const double &lm_intercept,
-    const double &error_sd
-  ) {
-  
-  double overall_prob = 0;
-  double predicted_titre;
-  double log_prediction_prob;
-  
-  for(arma::uword i = 0; i < pred_titres.n_elem; ++i) {
-    predicted_titre = lm_intercept + par(0)*pred_titres(i);
-    if(std::isfinite(max_titres(i))) {
-      log_prediction_prob = get_lndscp_fit_negll(
-        max_titres(i), 
-        min_titres(i), 
-        predicted_titre, 
-        error_sd
-      );
-      overall_prob -= log_prediction_prob;
-    }
-  }
-  
-  return(overall_prob);
   
 }

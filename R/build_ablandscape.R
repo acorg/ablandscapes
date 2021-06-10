@@ -1,7 +1,7 @@
 
 #' Build an antibody landscape
 #'
-#' This is a function for building and antibody landscape from a given set of antigenic coordinates and titres.
+#' This is a function for building and antibody landscape from a given set of antigenic coordinates and titers.
 #'
 #' @param object 
 #' @param grid_spacing 

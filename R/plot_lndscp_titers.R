@@ -8,7 +8,7 @@
 #' 
 #' @export
 #' 
-lndscp3d_titres <- function(
+lndscp3d_titers <- function(
   data3js,
   object,
   zlim,
@@ -20,7 +20,7 @@ lndscp3d_titres <- function(
   # Get the plot pars
   pars <- do.call(ablandscape.par, options)
   
-  # Define NA titres
+  # Define NA titers
   na_titers <- is.na(object$logtiters)
   
   # Get the coordinates

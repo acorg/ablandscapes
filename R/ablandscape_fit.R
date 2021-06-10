@@ -127,13 +127,15 @@ ablandscape.fit <- function(
 #' @return
 #' @export
 #'
-ablandscape.delta.fit <- function(titers1,
-                                  titers2,
-                                  coords,
-                                  bandwidth,
-                                  degree,
-                                  error.sd,
-                                  control = list()){
+ablandscape.delta.fit <- function(
+  titers1,
+  titers2,
+  coords,
+  bandwidth,
+  degree,
+  error.sd,
+  control = list()
+  ){
   
   # Keep a record
   fit <- list()
