@@ -7,7 +7,7 @@
 ablandscape.control(
   max.titer.possible = 10,
   min.titer.possible = -4,
-  max.slope = 1,
+  max.slope = Inf,
   error.sd = 1.1,
   confint.stepsize = 0.1,
   model.fn = NULL
