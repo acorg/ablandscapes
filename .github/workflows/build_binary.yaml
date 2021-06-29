@@ -24,7 +24,6 @@ jobs:
         config:
           - {os: windows-latest, r: 'release'}
           - {os: macOS-latest, r: 'release'}
-          - {os: ubuntu-20.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -61,6 +60,12 @@ jobs:
           do
             eval sudo $cmd
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
+      
+      - name: Install gcc
+        if: runner.os == 'macOS'
+        run: |
+          brew update
+          brew install gcc@10
 
       - name: Install dependencies
         run: |
@@ -75,6 +80,7 @@ jobs:
           git config --local user.name "GitHub Actions"
         
       - name: Build binary
+        if: runner.os == 'macOS'
         run: |
         
           # Set variables
@@ -130,9 +136,48 @@ jobs:
           dir.create(package_output_dir, showWarnings = FALSE)
           
           # Build the package in the build dir
-          pkgbuild::build(
-            dest_path = build_dir,
-            binary = TRUE
+          options <- pkgbuild:::build_setup(
+            path = ".", 
+            dest_path = build_dir, 
+            binary = TRUE, 
+            vignettes = TRUE, 
+            manual = FALSE, 
+            clean_doc = NULL, 
+            args = NULL, 
+            needs_compilation = TRUE, 
+            compile_attributes = FALSE, 
+            register_routines = FALSE, 
+            quiet = TRUE
+          )
+          on.exit(unlink(options$out_dir, recursive = TRUE), add = TRUE)
+          
+          pkgbuild::clean_dll(".")
+          withr::local_makevars(
+            c(
+              pkgbuild::compiler_flags(debug = FALSE), 
+              CXX = "/usr/local/bin/g++-10",
+              CXX1X = "/usr/local/bin/g++-10",
+              CXX11 = "/usr/local/bin/g++-10",
+              SHLIB_CXXLD = "/usr/local/bin/g++-10",
+              FC = "/usr/local/bin/gfortran-10",
+              F77 = "/usr/local/bin/gfortran-10",
+              MAKE = "make -j8",
+              SHLIB_OPENMP_CFLAGS = "-fopenmp",
+              SHLIB_OPENMP_CXXFLAGS = "-fopenmp",
+              SHLIB_OPENMP_FCFLAGS = "-fopenmp",
+              SHLIB_OPENMP_FFLAGS = "-fopenmp"
+            ),
+            .assignment = "="
+          )
+          withr::with_temp_libpaths(
+            pkgbuild::rcmd_build_tools(
+              options$cmd, 
+              c(options$path, options$args), 
+              wd = options$out_dir, 
+              fail_on_status = TRUE, 
+              required = FALSE, 
+              quiet = FALSE
+            )
           )
           
           # Move the built package to the output directory
