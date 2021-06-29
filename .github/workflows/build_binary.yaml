@@ -64,6 +64,7 @@ jobs:
       - name: Install gcc
         if: runner.os == 'macOS'
         run: |
+          which gcc | cat
           brew update
           brew install gcc@11
 
