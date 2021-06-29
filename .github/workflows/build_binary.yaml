@@ -65,7 +65,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew update
-          brew install gcc@10
+          brew install gcc@11
 
       - name: Install dependencies
         run: |
@@ -155,12 +155,12 @@ jobs:
           withr::local_makevars(
             c(
               pkgbuild::compiler_flags(debug = FALSE), 
-              CXX = "/usr/local/bin/g++-10",
-              CXX1X = "/usr/local/bin/g++-10",
-              CXX11 = "/usr/local/bin/g++-10",
-              SHLIB_CXXLD = "/usr/local/bin/g++-10",
-              FC = "/usr/local/bin/gfortran-10",
-              F77 = "/usr/local/bin/gfortran-10",
+              CXX = "/usr/local/bin/g++-11",
+              CXX1X = "/usr/local/bin/g++-11",
+              CXX11 = "/usr/local/bin/g++-11",
+              SHLIB_CXXLD = "/usr/local/bin/g++-11",
+              FC = "/usr/local/bin/gfortran-11",
+              F77 = "/usr/local/bin/gfortran-11",
               MAKE = "make -j8",
               SHLIB_OPENMP_CFLAGS = "-fopenmp",
               SHLIB_OPENMP_CXXFLAGS = "-fopenmp",
