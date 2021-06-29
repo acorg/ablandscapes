@@ -133,7 +133,7 @@ jobs:
             dest_path = build_dir, 
             binary = TRUE, 
             vignettes = TRUE, 
-            manual = FALSE, 
+            manual = TRUE, 
             clean_doc = NULL, 
             args = NULL, 
             needs_compilation = TRUE, 
