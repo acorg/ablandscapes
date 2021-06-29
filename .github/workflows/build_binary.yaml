@@ -10,7 +10,7 @@ on:
       - main
       - master
 
-name: R-CMD-check
+name: Build-binary-packages
 
 jobs:
   R-CMD-check:
@@ -68,18 +68,9 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
-
-      - name: Check
-        env:
-          _R_CHECK_CRAN_INCOMING_REMOTE_: false
+        
+      - name: Build binary
         run: |
-          options(crayon.enabled = TRUE)
-          rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+          ablandscapes:::deploy_build()
         shell: Rscript {0}
 
-      - name: Upload check results
-        if: failure()
-        uses: actions/upload-artifact@main
-        with:
-          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
-          path: check
