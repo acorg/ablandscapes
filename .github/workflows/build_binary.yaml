@@ -73,7 +73,6 @@ jobs:
           git config --local user.name "GitHub Actions"
         
       - name: Build binary
-        if: runner.os == 'macOS'
         run: |
         
           # Set variables
