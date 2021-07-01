@@ -53,14 +53,6 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
-      - name: Install system dependencies
-        if: runner.os == 'Linux'
-        run: |
-          while read -r cmd
-          do
-            eval sudo $cmd
-          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
-
       - name: Install dependencies
         run: |
           remotes::install_cran("rcmdcheck")
@@ -190,6 +182,14 @@ jobs:
           built_pkg_path <- list.files(options$out_dir, full.names = T)[1]
           built_pkg_file <- list.files(options$out_dir)[1]
           built_pkg_name <- gsub(".*\\.", paste0(package_filename, "."), built_pkg_file)
+          built_pkg_name_latest <- gsub(version, "latest", built_pkg_name, fixed = TRUE)
+          
+          file.copy(
+            built_pkg_path,
+            file.path(package_output_dir, built_pkg_name_latest),
+            overwrite = TRUE
+          )
+          
           file.rename(
             built_pkg_path,
             file.path(package_output_dir, built_pkg_name)
