@@ -187,8 +187,8 @@ jobs:
           )
           
           # Move the built package to the output directory
-          built_pkg_path <- list.files(build_dir, full.names = T)[1]
-          built_pkg_file <- list.files(build_dir)[1]
+          built_pkg_path <- list.files(options$out_dir, full.names = T)[1]
+          built_pkg_file <- list.files(options$out_dir)[1]
           built_pkg_name <- gsub(".*\\.", paste0(package_filename, "."), built_pkg_file)
           file.rename(
             built_pkg_path,
