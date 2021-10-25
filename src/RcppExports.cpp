@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // calc_mean_titer_negll
 double calc_mean_titer_negll(const double& predicted_mean, const arma::vec& max_titers, const arma::vec& min_titers, const double& titer_sd);
 RcppExport SEXP _ablandscapes_calc_mean_titer_negll(SEXP predicted_meanSEXP, SEXP max_titersSEXP, SEXP min_titersSEXP, SEXP titer_sdSEXP) {
