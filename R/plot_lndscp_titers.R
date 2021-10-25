@@ -31,6 +31,7 @@ lndscp3d_titers <- function(
     proportion_cutoff <- 0.9
     z_excluded <- z_ntitrations / max(z_ntitrations) < proportion_cutoff
     z[z_excluded] <- NA
+    z[z < zlim[1]] <- zlim[1]
   }
   
   # Define NA titers
