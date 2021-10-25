@@ -11,6 +11,8 @@
 ablandscape.par <- function(
   cex                  = 1,
   cex.basemap          = cex,
+  cex.basemap.ags      = cex.basemap,
+  cex.basemap.sr       = cex.basemap,
   cex.titer            = cex,
   col.impulse          = "grey20",
   lwd.impulse          = 0.5,
@@ -30,6 +32,8 @@ ablandscape.par <- function(
   list(
     cex                  = cex,
     cex.basemap          = cex.basemap,
+    cex.basemap.ags      = cex.basemap.ags,
+    cex.basemap.sr       = cex.basemap.sr,
     cex.titer            = cex.titer,
     asp.z                = asp.z,
     zaxt                 = zaxt,
