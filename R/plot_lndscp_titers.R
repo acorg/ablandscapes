@@ -20,17 +20,21 @@ lndscp3d_titers <- function(
   # Get the plot pars
   pars <- do.call(ablandscape.par, options)
   
-  # Define NA titers
-  na_titers <- is.na(object$logtiters)
-  
   # Get the coordinates
   x <- object$coords[,1]
   y <- object$coords[,2]
   if (is.null(dim(object$logtiters))) {
     z <- object$logtiters
   } else {
-    z <- colMeans(object$logtiters, na.rm = T)
+    z <- apply(object$titers, 2, \(x) meantiter::mean_titers(x, "truncated_normal", dilution_stepsize = 1)$mean)
+    z_ntitrations <- colSums(!is.na(object$logtiters))
+    proportion_cutoff <- 0.9
+    z_excluded <- z_ntitrations / max(z_ntitrations) < proportion_cutoff
+    z[z_excluded] <- NA
   }
+  
+  # Define NA titers
+  na_titers <- is.na(z)
   
   # Take an average if z is a matrix
   if (!is.null(dim(z))) z <- colMeans(z)
@@ -57,7 +61,7 @@ lndscp3d_titers <- function(
                                x          = x[n],
                                y          = y[n],
                                z          = zlim[1]+0.02,
-                               size       = pars$cex.titer,
+                               size       = pars$cex.titer*2,
                                col        = ag_cols[n],
                                highlight  = list(col = "red"),
                                label      = ag_names[n],
@@ -70,7 +74,7 @@ lndscp3d_titers <- function(
                                x                   = x[n],
                                y                   = y[n],
                                z                   = zlim[1]+0.02,
-                               size                = pars$cex.titer,
+                               size                = pars$cex.titer*2,
                                pch                 = 1,
                                col                 = "black",
                                highlight           = list(col = "red"),
@@ -80,7 +84,7 @@ lndscp3d_titers <- function(
                                polygonOffsetFactor = -1.0,
                                polygonOffsetUnits  = -1.0,
                                dimensions          = 2,
-                               lwd                 = 0.4)
+                               lwd                 = 1)
     groupIDs <- c(groupIDs, r3js::lastID(data3js))
     
     
