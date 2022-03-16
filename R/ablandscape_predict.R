@@ -21,6 +21,55 @@ predict.ablandscape.fit <- function(
   control    = list()
   ){
   
+  switch(
+    object$method,
+    loess = predict_lndscp_loess(object, coords, interval, level, negll.fit, crop2chull, control),
+    cone = predict_lndscp_cone(object, coords, interval, level, negll.fit, crop2chull, control)
+  )
+  
+}
+
+
+predict_lndscp_cone <- function(object, coords, interval, level, negll.fit, crop2chull, control) {
+  
+  # Take upper and lower bounds for the log titers
+  if("ablandscape.delta.fit" %in% class(object)){
+    upper_bounds <- object$logtiters.delta.upper
+    lower_bounds <- object$logtiters.delta.lower
+  } else {
+    upper_bounds <- object$logtiters.upper
+    lower_bounds <- object$logtiters.lower
+  }
+  
+  # Fit cone parameters
+  fitted_values <- apply(
+    coords, 1,
+    function(point_coords) {
+      
+      # Return NA if outside convex hull
+      if(crop2chull) {
+        withinChull <- lndscp_checkChull(point_coords, object$coords)
+        if(!withinChull) {
+          return(NA)
+        }
+      }
+      
+      # Fit the cone fit
+      point_dists <- as.matrix(dist(rbind(point_coords, object$cone$cone_coords)))[1, -1]
+      mean(object$cone$cone_heights - point_dists*object$cone$cone_slope)
+      
+    }
+  )
+  
+  # Return the values
+  fitted_values
+  
+}
+
+
+
+predict_lndscp_loess <- function(object, coords, interval, level, negll.fit, crop2chull, control) {
+  
   # Take upper and lower bounds for the log titers
   if("ablandscape.delta.fit" %in% class(object)){
     upper_bounds <- object$logtiters.delta.upper
@@ -170,12 +219,11 @@ predict.ablandscape.fit <- function(
     
   }
   
-  
-  
   # Return the output
   output
   
 }
+
 
 #' @export
 predict_lndscp_grid <- function(
@@ -185,7 +233,8 @@ predict_lndscp_grid <- function(
   grid_spacing = 0.5,
   crop2chull   = TRUE,
   padding = 1,
-  format = "wide"
+  format = "wide",
+  ...
 ){
   
   # Decide on default coordinates for grid lines
@@ -207,7 +256,8 @@ predict_lndscp_grid <- function(
   lndscp_heights <- predict(
     fit,
     coords     = grid_coords,
-    crop2chull = crop2chull
+    crop2chull = crop2chull,
+    ...
   )
   
   # Convert the predictions back to a matrix matching x and y

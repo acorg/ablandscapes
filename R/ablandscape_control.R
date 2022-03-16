@@ -10,22 +10,30 @@
 #' @export
 #' 
 ablandscape.control <- function(
-  max.titer.possible = 10,
-  min.titer.possible = -4,
-  max.slope          = Inf,
-  error.sd           = 1.1,
-  confint.stepsize   = 0.1,
-  model.fn           = NULL
+  max.titer.possible   = 10,
+  min.titer.possible   = -4,
+  max.slope            = Inf,
+  error.sd             = 1.1,
+  confint.stepsize     = 0.1,
+  optimise.cone.coords = TRUE,
+  optimise.cone.slope  = TRUE,
+  start.cone.coords    = NULL,
+  start.cone.slope     = NULL,
+  model.fn             = NULL
 ) {
   
   
   list(
-    max.titer.possible = max.titer.possible,
-    min.titer.possible = min.titer.possible,
-    max.slope          = max.slope,
-    error.sd           = error.sd,
-    confint.stepsize   = confint.stepsize,
-    model.fn           = model.fn
+    max.titer.possible   = max.titer.possible,
+    min.titer.possible   = min.titer.possible,
+    max.slope            = max.slope,
+    error.sd             = error.sd,
+    confint.stepsize     = confint.stepsize,
+    optimise.cone.coords = optimise.cone.coords,
+    optimise.cone.slope  = optimise.cone.slope,
+    start.cone.coords    = start.cone.coords,
+    start.cone.slope     = start.cone.slope,
+    model.fn             = model.fn
   )
   
 }

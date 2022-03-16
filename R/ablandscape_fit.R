@@ -8,6 +8,7 @@
 #' @param bandwidth The bandwidth of the local regression.
 #' @param degree The degree of the polynomials to be used, normally 1 or 2.
 #' @param control Control parameters: see (\code{\link{ablandscape.control}})
+#' @param method Fitting method to use, one of "loess" or "cone"
 #'
 #' @return
 #' @export
@@ -19,6 +20,7 @@ ablandscape.fit <- function(
   degree,
   error.sd,
   control = list(),
+  method = "loess",
   acmap = NULL
   ){
   
@@ -66,6 +68,7 @@ ablandscape.fit <- function(
   fit$bandwidth <- bandwidth
   fit$degree    <- degree
   fit$error.sd  <- error.sd
+  fit$method    <- method
   
   # Get less than and greater than coordinates
   fit$lessthans <- substr(titers, 1, 1) == "<"
@@ -84,6 +87,9 @@ ablandscape.fit <- function(
   )
   fit$logtiters.upper <- titer_lims$max_titers
   fit$logtiters.lower <- titer_lims$min_titers
+  
+  # Fit cone parameters if doing a cone fit
+  if (method == "cone") fit$cone <- fit_cone_pars(fit)
   
   # Record fit
   fit$fitted.values <- predict(
@@ -109,6 +115,84 @@ ablandscape.fit <- function(
   
 }
 
+
+fit_cone_pars <- function(fit) {
+  
+  # Set start parameters
+  if (is.null(fit$control$start.cone.slope)) {
+    fit$control$start.cone.slope <- 1
+  }
+  if (is.null(fit$control$start.cone.coords)) {
+    fit$control$start.cone.coords <- unname(fit$coords[apply(fit$logtiters, 1, which.max), , drop = F])
+  }
+  cone_heights <- unname(apply(fit$logtiters, 1, max, na.rm = T))
+  
+  # Set parameters
+  if (!fit$control$optimise.cone.coords & !fit$control$optimise.cone.slope) {
+    
+    cone_slope <- fit$control$start.cone.slope
+    cone_coords <- fit$control$start.cone.coords
+    
+  } else {
+    
+    start_pars <- c()
+    upper_pars <- c()
+    lower_pars <- c()
+    
+    if (fit$control$optimise.cone.slope) {
+      start_pars <- c(start_pars, fit$control$start.cone.slope)
+      upper_pars <- c(upper_pars, Inf)
+      lower_pars <- c(lower_pars, 0.01)
+    }
+    if (fit$control$optimise.cone.coords) {
+      start_pars <- c(start_pars, as.vector(fit$control$start.cone.coords))
+      upper_pars <- c(upper_pars, rep(Inf, length(fit$control$start.cone.coords)))
+      lower_pars <- c(lower_pars, rep(-Inf, length(fit$control$start.cone.coords)))
+    }
+  
+    # Optimize the parameters
+    result <- nlminb(
+      start                = start_pars,
+      objective            = negll_cone_pars,
+      upper                = upper_pars,
+      lower                = lower_pars,
+      ag_coords            = fit$coords,
+      cone_heights         = cone_heights,
+      cone_coords          = fit$control$start.cone.coords,
+      cone_slope           = fit$control$start.cone.slope,
+      max_titers           = fit$logtiters.upper,
+      min_titers           = fit$logtiters.lower,
+      error_sd             = fit$error.sd,
+      optimise_cone_slope  = fit$control$optimise.cone.slope,
+      optimise_cone_coords = fit$control$optimise.cone.coords
+    )
+    
+    if (fit$control$optimise.cone.slope) {
+      cone_slope <- result$par[1]
+      if (fit$control$optimise.cone.coords) {
+        cone_coords <- matrix(result$par[-1], nrow(fit$logtiters), 2)
+      } else {
+        cone_coords <- fit$control$start.cone.coords
+      }
+    } else {
+      cone_slope <- fit$control$start.cone.slope
+      if (fit$control$optimise.cone.coords) {
+        cone_coords <- matrix(result$par, nrow(fit$logtiters), 2)
+      } else {
+        cone_coords <- fit$control$start.cone.coords
+      }
+    }
+    
+  }
+  
+  # Organise the parameters
+  list(
+    cone_slope   = cone_slope,
+    cone_coords  = cone_coords,
+    cone_heights = cone_heights
+  )
+  
+}
 
 
 
@@ -147,6 +231,7 @@ ablandscape.delta.fit <- function(
   fit$bandwidth <- bandwidth
   fit$degree    <- degree
   fit$error.sd  <- error.sd
+  fit$method    <- "loess"
   
   # Get measurable titers
   measurable_titers <- substr(titers1, 1, 1) != "<" &

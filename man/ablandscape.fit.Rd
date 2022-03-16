@@ -11,6 +11,7 @@ ablandscape.fit(
   degree,
   error.sd,
   control = list(),
+  method = "loess",
   acmap = NULL
 )
 }
@@ -24,6 +25,8 @@ ablandscape.fit(
 \item{degree}{The degree of the polynomials to be used, normally 1 or 2.}
 
 \item{control}{Control parameters: see (\code{\link{ablandscape.control}})}
+
+\item{method}{Fitting method to use, one of "loess" or "cone"}
 }
 \value{
 
