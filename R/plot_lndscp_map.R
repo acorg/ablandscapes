@@ -26,13 +26,15 @@ lndscp3d_map <- function(
   map_sr_outline <- Racmacs::srOutline(fit$acmap)
   map_ag_names   <- Racmacs::agNames(fit$acmap)
   map_sr_names   <- Racmacs::srNames(fit$acmap)
+  map_ag_shown   <- Racmacs::agShown(fit$acmap)
+  map_sr_shown   <- Racmacs::srShown(fit$acmap)
   
   # Get the plot pars
   pars <- do.call(ablandscape.par, options)
   
   ## Add antigens and sera
   if(show.map.antigens){
-    for (n in seq_len(nrow(map_ag_coords))) {
+    for (n in which(map_ag_shown)) {
       data3js <- r3js::points3js(data3js,
                                  x          = map_ag_coords[n,1],
                                  y          = map_ag_coords[n,2],
@@ -49,7 +51,7 @@ lndscp3d_map <- function(
   }
   
   if(show.map.sera){
-    for (n in seq_len(nrow(map_sr_coords))) {
+    for (n in which(map_sr_shown)) {
       data3js <- r3js::points3js(data3js,
                                  x          = map_sr_coords[n,1],
                                  y          = map_sr_coords[n,2],

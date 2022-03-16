@@ -37,7 +37,9 @@ lndscp3d_setup <- function(
     data3js <- r3js::grid3js(
       data3js,
       axes = "z",
-      lwd = 1
+      lwd = pars$sidegrid.lwd,
+      col = pars$sidegrid.col,
+      at = pars$sidegrid.at
     )
   }
   
@@ -70,6 +72,7 @@ lndscp3d_setup <- function(
       y = range(ylim),
       z = c(zlim[1], zlim[1]),
       col = pars$col.grid,
+      lwd = pars$lwd.grid,
       xpd = TRUE
     )
   }
@@ -80,6 +83,7 @@ lndscp3d_setup <- function(
       y = c(y, y),
       z = c(zlim[1], zlim[1]),
       col = pars$col.grid,
+      lwd = pars$lwd.grid,
       xpd = TRUE
     )
   }

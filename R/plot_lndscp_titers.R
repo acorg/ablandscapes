@@ -14,6 +14,7 @@ lndscp3d_titers <- function(
   zlim,
   show.impulses = TRUE,
   toggle = "Titers",
+  titer_proportion_cutoff = 0.9,
   options = list()
   ) {
   
@@ -28,8 +29,7 @@ lndscp3d_titers <- function(
   } else {
     z <- apply(object$titers, 2, \(x) meantiter::mean_titers(x, "truncated_normal", dilution_stepsize = 1)$mean)
     z_ntitrations <- colSums(!is.na(object$logtiters))
-    proportion_cutoff <- 0.9
-    z_excluded <- z_ntitrations / max(z_ntitrations) < proportion_cutoff
+    z_excluded <- z_ntitrations / max(z_ntitrations) < titer_proportion_cutoff
     z[z_excluded] <- NA
     z[z < zlim[1]] <- zlim[1]
   }
@@ -85,7 +85,7 @@ lndscp3d_titers <- function(
                                polygonOffsetFactor = -1.0,
                                polygonOffsetUnits  = -1.0,
                                dimensions          = 2,
-                               lwd                 = 1)
+                               lwd                 = pars$lwd.titer.outline)
     groupIDs <- c(groupIDs, r3js::lastID(data3js))
     
     
@@ -107,7 +107,7 @@ lndscp3d_titers <- function(
                                  x         = x[n],
                                  y         = y[n],
                                  z         = z[n],
-                                 size      = pars$cex.titer,
+                                 size      = pars$cex.titer.impulse,
                                  col       = "grey20",
                                  highlight = list(col = "red"),
                                  label     = ag_names[n],
