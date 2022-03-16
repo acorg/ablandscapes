@@ -15,6 +15,7 @@ lndscp_r3jsplot(
   show.titers = TRUE,
   show.impulses = show.titers,
   show.surface = TRUE,
+  show.individual.surfaces = FALSE,
   show.map.antigens = TRUE,
   show.map.sera = TRUE,
   show.axis = TRUE,
@@ -25,7 +26,10 @@ lndscp_r3jsplot(
   zoom = NULL,
   toggles = TRUE,
   grid_spacing = 0.5,
-  options = list()
+  titer_proportion_cutoff = 0.9,
+  options = list(),
+  options.individual.surfaces = list(opacity.surface.grid = 0.4, opacity.surface = 0.2,
+    col.surface = "grey70", col.surface.grid = "grey70")
 )
 }
 \arguments{

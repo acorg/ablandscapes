@@ -11,6 +11,26 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// negll_cone_pars
+double negll_cone_pars(const arma::vec& par, const arma::vec& cone_heights, double cone_slope, arma::mat cone_coords, const arma::mat& ag_coords, const arma::mat& max_titers, const arma::mat& min_titers, const double& error_sd, const bool optimise_cone_slope, const bool optimise_cone_coords);
+RcppExport SEXP _ablandscapes_negll_cone_pars(SEXP parSEXP, SEXP cone_heightsSEXP, SEXP cone_slopeSEXP, SEXP cone_coordsSEXP, SEXP ag_coordsSEXP, SEXP max_titersSEXP, SEXP min_titersSEXP, SEXP error_sdSEXP, SEXP optimise_cone_slopeSEXP, SEXP optimise_cone_coordsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::vec& >::type par(parSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type cone_heights(cone_heightsSEXP);
+    Rcpp::traits::input_parameter< double >::type cone_slope(cone_slopeSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type cone_coords(cone_coordsSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type ag_coords(ag_coordsSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type max_titers(max_titersSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type min_titers(min_titersSEXP);
+    Rcpp::traits::input_parameter< const double& >::type error_sd(error_sdSEXP);
+    Rcpp::traits::input_parameter< const bool >::type optimise_cone_slope(optimise_cone_slopeSEXP);
+    Rcpp::traits::input_parameter< const bool >::type optimise_cone_coords(optimise_cone_coordsSEXP);
+    rcpp_result_gen = Rcpp::wrap(negll_cone_pars(par, cone_heights, cone_slope, cone_coords, ag_coords, max_titers, min_titers, error_sd, optimise_cone_slope, optimise_cone_coords));
+    return rcpp_result_gen;
+END_RCPP
+}
 // calc_mean_titer_negll
 double calc_mean_titer_negll(const double& predicted_mean, const arma::vec& max_titers, const arma::vec& min_titers, const double& titer_sd);
 RcppExport SEXP _ablandscapes_calc_mean_titer_negll(SEXP predicted_meanSEXP, SEXP max_titersSEXP, SEXP min_titersSEXP, SEXP titer_sdSEXP) {
@@ -73,6 +93,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_ablandscapes_negll_cone_pars", (DL_FUNC) &_ablandscapes_negll_cone_pars, 10},
     {"_ablandscapes_calc_mean_titer_negll", (DL_FUNC) &_ablandscapes_calc_mean_titer_negll, 4},
     {"_ablandscapes_calc_mean_titer_negll_without_sd", (DL_FUNC) &_ablandscapes_calc_mean_titer_negll_without_sd, 3},
     {"_ablandscapes_negll_titer_lm", (DL_FUNC) &_ablandscapes_negll_titer_lm, 6},

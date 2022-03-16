@@ -10,6 +10,7 @@ lndscp3d_titers(
   zlim,
   show.impulses = TRUE,
   toggle = "Titers",
+  titer_proportion_cutoff = 0.9,
   options = list()
 )
 }
