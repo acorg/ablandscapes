@@ -8,6 +8,9 @@ Description: A package containing functions for making antibody landscapes.
 License: AGPL (>= 3)
 Imports: Rcpp (>= 1.0.6)
 LinkingTo: Rcpp, RcppArmadillo
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2.9000
 URL: https://github.com/acorg/ablandscapes
 BugReports: https://github.com/acorg/ablandscapes/issues
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
