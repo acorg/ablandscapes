@@ -35,36 +35,39 @@ lndscp3d_map <- function(
   ## Add antigens and sera
   if(show.map.antigens){
     for (n in which(map_ag_shown)) {
-      data3js <- r3js::points3js(data3js,
-                                 x          = map_ag_coords[n,1],
-                                 y          = map_ag_coords[n,2],
-                                 z          = zlim[1]+0.019,
-                                 size       = pars$cex.basemap.ags,
-                                 col        = map_ag_fill[n],
-                                 opacity    = pars$opacity.basemap.ags,
-                                 highlight  = list(col = "red"),
-                                 label      = map_ag_names[n],
-                                 toggle     = toggle,
-                                 depthWrite = FALSE,
-                                 dimensions = 2)
+      data3js <- r3js::points3js(
+        data3js,
+        x          = map_ag_coords[n,1],
+        y          = map_ag_coords[n,2],
+        z          = zlim[1]+0.019,
+        size       = pars$cex.basemap.ags,
+        col        = map_ag_fill[n],
+        opacity    = pars$opacity.basemap.ags,
+        highlight  = list(col = "red"),
+        label      = map_ag_names[n],
+        toggle     = toggle,
+        depthWrite = FALSE,
+        shape      = "circle"
+      )
     }
   }
   
   if(show.map.sera){
     for (n in which(map_sr_shown)) {
-      data3js <- r3js::points3js(data3js,
-                                 x          = map_sr_coords[n,1],
-                                 y          = map_sr_coords[n,2],
-                                 z          = zlim[1]+0.019,
-                                 pch        = 0,
-                                 size       = pars$cex.basemap.sr,
-                                 col        = map_sr_outline[n],
-                                 opacity    = pars$opacity.basemap.sr,
-                                 highlight  = list(col = "red"),
-                                 label      = map_sr_names[n],
-                                 toggle     = toggle,
-                                 depthWrite = FALSE,
-                                 dimensions = 2)
+      data3js <- r3js::points3js(
+        data3js,
+        x          = map_sr_coords[n,1],
+        y          = map_sr_coords[n,2],
+        z          = zlim[1]+0.019,
+        size       = pars$cex.basemap.sr,
+        col        = map_sr_outline[n],
+        opacity    = pars$opacity.basemap.sr,
+        highlight  = list(col = "red"),
+        label      = map_sr_names[n],
+        toggle     = toggle,
+        depthWrite = FALSE,
+        shape      = "square open"
+      )
     }
   }
   

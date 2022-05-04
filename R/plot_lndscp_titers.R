@@ -58,34 +58,37 @@ lndscp3d_titers <- function(
     groupIDs <- c()
     
     # Plot basepoints
-    data3js <- r3js::points3js(data3js,
-                               x          = x[n],
-                               y          = y[n],
-                               z          = zlim[1]+0.02,
-                               size       = pars$cex.titer*2,
-                               col        = ag_cols[n],
-                               highlight  = list(col = "red"),
-                               label      = ag_names[n],
-                               toggle     = toggle,
-                               depthWrite = FALSE,
-                               dimensions = 2)
+    data3js <- r3js::points3js(
+      data3js,
+      x          = x[n],
+      y          = y[n],
+      z          = zlim[1]+0.02,
+      shape      = "circle",
+      size       = pars$cex.titer*2,
+      col        = ag_cols[n],
+      highlight  = list(col = "red"),
+      label      = ag_names[n],
+      toggle     = toggle,
+      depthWrite = FALSE
+    )
     groupIDs <- c(groupIDs, r3js::lastID(data3js))
     
-    data3js <- r3js::points3js(data3js,
-                               x                   = x[n],
-                               y                   = y[n],
-                               z                   = zlim[1]+0.02,
-                               size                = pars$cex.titer*2,
-                               pch                 = 1,
-                               col                 = "black",
-                               highlight           = list(col = "red"),
-                               toggle              = toggle,
-                               label               = ag_names[n],
-                               polygonOffset       = TRUE,
-                               polygonOffsetFactor = -1.0,
-                               polygonOffsetUnits  = -1.0,
-                               dimensions          = 2,
-                               lwd                 = pars$lwd.titer.outline)
+    data3js <- r3js::points3js(
+      data3js,
+      x                   = x[n],
+      y                   = y[n],
+      z                   = zlim[1]+0.02,
+      size                = pars$cex.titer*2,
+      shape               = "circle open",
+      col                 = "black",
+      highlight           = list(col = "red"),
+      toggle              = toggle,
+      label               = ag_names[n],
+      polygonOffset       = TRUE,
+      polygonOffsetFactor = -1.0,
+      polygonOffsetUnits  = -1.0,
+      lwd                 = pars$lwd.titer.outline
+    )
     groupIDs <- c(groupIDs, r3js::lastID(data3js))
     
     
