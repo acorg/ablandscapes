@@ -10,6 +10,10 @@ ablandscape.control(
   max.slope = Inf,
   error.sd = 1.1,
   confint.stepsize = 0.1,
+  optimise.cone.coords = TRUE,
+  optimise.cone.slope = TRUE,
+  start.cone.coords = NULL,
+  start.cone.slope = NULL,
   model.fn = NULL
 )
 }
