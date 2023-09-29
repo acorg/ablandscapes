@@ -170,7 +170,7 @@ fit_cone_pars <- function(fit) {
     if (fit$control$optimise.cone.slope) {
       cone_slope <- result$par[1]
       if (fit$control$optimise.cone.coords) {
-        cone_coords <- matrix(result$par[-1], nrow(fit$logtiters), 2)
+        cone_coords <- matrix(result$par[-1], nrow(fit$logtiters), 2, byrow = T)
       } else {
         cone_coords <- fit$control$start.cone.coords
       }
