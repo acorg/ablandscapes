@@ -99,7 +99,7 @@ ablandscape.fit <- function(
   )
   
   # Get residuals
-  fit_residuals <- fit$logtiters - fit$fitted.values
+  fit_residuals <- t(t(fit$logtiters) - fit$fitted.values)
   
   fit$residuals <- fit_residuals
   fit$residuals[fit$morethans | fit$lessthans] <- NA
